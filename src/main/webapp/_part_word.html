@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>詞音</title>
+		<style type="text/css">
+			@import "../libdojo/dijit/themes/claro/claro.css";
+			@import "../libdojo/dijit/themes/claro/document.css";
+			@import "../libdojo/gridx/resources/claro/Gridx.css";
+			@import "../libdojo/lang/widget/style/MessageArea.css";
+			@import "_part.css";
+		</style>
+	</head>
+	<body class="claro">
+		<div id="loading"><div id="loadingMsg">Loading...</div></div>
+		<div id="msgArea" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgArea" data-dojo-props="messages:msgArea_messages"></div>
+		<button id="queryButton" data-dojo-type="dijit/form/Button" data-dojo-id="queryButton" data-dojo-props="iconClass:'dijitIcon dijitIconSearch'" type="button" disabled="disabled">
+			查詢
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				grid.model.clearCache();
+				grid.body.refresh();
+			</script>
+		</button>
+		<button id="addButton" data-dojo-type="dijit/form/Button" data-dojo-id="addButton" data-dojo-props="iconClass:'dijitIcon dijitIconFile'" type="button" disabled="disabled">
+			新增
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_prepareAdd();
+			</script>
+		</button>
+		<button id="updateButton" data-dojo-type="dijit/form/Button" data-dojo-id="updateButton" data-dojo-props="iconClass:'dijitIcon dijitIconEdit'" type="button" disabled="disabled">
+			修改
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_prepareUpdate(grid.select.row.getSelected()[0]);
+			</script>
+		</button>
+		<button id="deleteButton" data-dojo-type="dijit/form/Button" data-dojo-id="deleteButton" data-dojo-props="iconClass:'dijitIcon dijitIconDelete'" type="button" disabled="disabled">
+			刪除
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_checkDelete(grid.select.row.getSelected());
+			</script>
+		</button>
+		<button id="languageLink" data-dojo-type="dijit/form/Button" data-dojo-id="languageLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
+			語言
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_language.html?"+"lsid="+grid.row(grid.select.row.getSelected()).data().wolsid;
+			</script>
+		</button>
+		<button id="wordflowLink" data-dojo-type="dijit/form/Button" data-dojo-id="wordflowLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
+			詞音線程
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_wordflow.html?"+"wawoid="+grid.row(grid.select.row.getSelected()).data().woid;
+			</script>
+		</button>
+		<div id="grid" data-dojo-type="gridx/Grid" data-dojo-id="grid" data-dojo-props="
+			cacheClass:'gridx/core/model/cache/Async',
+			structure:grid_structure,
+			store:grid_store,
+			autoWidth:true,
+			autoHeight:true,
+			modules:[
+				'gridx/modules/HScroller',
+				'gridx/modules/VScroller',
+				'gridx/modules/ColumnResizer',
+				'gridx/modules/RowHeader',
+				'gridx/modules/select/Row',
+				'gridx/modules/IndirectSelect',
+				'gridx/modules/Filter',
+				{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
+				'gridx/modules/filter/QuickFilter',
+				'gridx/modules/NestedSort',
+				'gridx/modules/Pagination',
+				'gridx/modules/pagination/PaginationBar'],
+			paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
+			sortInitialOrder:[{colId:'wolsid',descending:false},{colId:'wopt',descending:false},{colId:'woid',descending:false}],
+			filterServerMode:true,
+			filterSetupQuery:grid_filterSetupQuery">
+		</div>
+		<div id="addDialog" title="新增" data-dojo-type="dijit/Dialog" data-dojo-id="addDialog" data-dojo-props="closable:false">
+			<form id="addForm" data-dojo-type="dijit/form/Form" data-dojo-id="addForm">
+				<div class="dijitDialogPaneContentArea">
+					<div id="msgAreaAdd" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaAdd" data-dojo-props="messages:msgAreaAdd_messages"></div>
+					<table>
+						<tr>
+							<td><label for="wolsid">語言編碼</label></td>
+							<td>
+								<input id="add_wolsid" name="wolsid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_wolsid" required="required" maxlength="16"/>
+							</td>
+							<td><a id="add_wolsidAssist" class="assist" href="#" onclick="f_assistBegin([add_wolsid],['lsid'],rel_language_wordDialog,rel_language_wordGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+						</tr>
+						<tr>
+							<td><label for="woct">字</label></td>
+							<td>
+								<input id="add_woct" name="woct" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_woct" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="wopt">拼音聲調</label></td>
+							<td>
+								<input id="add_wopt" name="wopt" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_wopt" required="required" maxlength="64"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="wocl">類別</label></td>
+							<td>
+								<input id="add_wocl" name="wocl" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_wocl" required="required" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="wost">狀態</label></td>
+							<td>
+								<input id="add_wost" name="wost" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_wost" required="required" maxlength="1"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="dijitDialogPaneActionBar">
+					<button id="addSubmit" type="submit" data-dojo-type="dijit/form/Button" data-dojo-id="addSubmit" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">確定</button>
+					<button id="addCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="addCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+						取消
+						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+							addDialog.hide();
+						</script>
+					</button>
+				</div>
+				<script type="dojo/on" data-dojo-event="submit" data-dojo-args="evt">
+					evt.preventDefault();
+					if(this.validate()){f_checkAdd().then(f_processAdd);}
+				</script>
+			</form>
+		</div>
+		<div id="updateDialog" title="修改" data-dojo-type="dijit/Dialog" data-dojo-id="updateDialog" data-dojo-props="closable:false">
+			<form id="updateForm" data-dojo-type="dijit/form/Form" data-dojo-id="updateForm">
+				<div class="dijitDialogPaneContentArea">
+					<div id="msgAreaUpdate" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaUpdate" data-dojo-props="messages:msgAreaUpdate_messages"></div>
+					<table>
+						<tr>
+							<td><label for="woid">詞音編碼</label></td>
+							<td><input id="update_woid" name="woid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_woid" required="required" maxlength="8" readonly="readonly"/></td>
+						</tr>
+						<tr>
+							<td><label for="wolsid">語言編碼</label></td>
+							<td>
+								<input id="update_wolsid" name="wolsid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_wolsid" required="required" maxlength="16"/>
+							</td>
+							<td><a id="update_wolsidAssist" class="assist" href="#" onclick="f_assistBegin([update_wolsid],['lsid'],rel_language_wordDialog,rel_language_wordGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+						</tr>
+						<tr>
+							<td><label for="woct">字</label></td>
+							<td>
+								<input id="update_woct" name="woct" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_woct" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="wopt">拼音聲調</label></td>
+							<td>
+								<input id="update_wopt" name="wopt" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_wopt" required="required" maxlength="64"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="wocl">類別</label></td>
+							<td>
+								<input id="update_wocl" name="wocl" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_wocl" required="required" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="wost">狀態</label></td>
+							<td>
+								<input id="update_wost" name="wost" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_wost" required="required" maxlength="1"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="dijitDialogPaneActionBar">
+					<button id="updateSubmit" type="submit" data-dojo-type="dijit/form/Button" data-dojo-id="updateSubmit" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">確定</button>
+					<button id="updateCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="updateCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+						取消
+						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+							f_cancelUpdate();
+						</script>
+					</button>
+				</div>
+				<script type="dojo/on" data-dojo-event="submit" data-dojo-args="evt">
+					evt.preventDefault();
+					if(this.validate()){f_checkUpdate().then(f_processUpdate);}
+				</script>
+			</form>
+		</div>
+		<div id="deleteDialog" title="刪除" data-dojo-type="dijit/Dialog" data-dojo-id="deleteDialog" data-dojo-props="closable:false">
+			<div class="dijitDialogPaneContentArea">
+				<div id="msgAreaDelete" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaDelete" data-dojo-props="messages:msgAreaDelete_messages"></div>
+				確定刪除<span id="deleteTip"></span>條記錄？
+			</div>
+			<div class="dijitDialogPaneActionBar">
+				<button id="excludeButton" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="excludeButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconUndo'">
+					排除
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						f_deselect(msgAreaDelete_messages);
+						f_checkDelete(grid.select.row.getSelected());
+					</script>
+				</button>
+				<button id="deleteSubmitButton" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="deleteSubmitButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">
+					確定
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						f_processDelete();
+					</script>
+				</button>
+				<button id="deleteCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="deleteCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+					取消
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						deleteDialog.hide();
+					</script>
+				</button>
+			</div>
+		</div>
+		<div id="prepareDialog" title="準備" data-dojo-type="dijit/Dialog" data-dojo-id="prepareDialog" data-dojo-props="closable:false">
+			<div class="dijitDialogPaneContentArea">
+				<div id="msgAreaPrepare" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaPrepare" data-dojo-props="messages:msgAreaPrepare_messages"></div>
+			</div>
+			<div class="dijitDialogPaneActionBar">
+				<button id="retryUpdateButton" data-dojo-type="dijit/form/Button" data-dojo-id="retryUpdateButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconRedo'" type="button">
+					重試
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						prepareDialog.hide();f_prepareUpdate(grid.select.row.getSelected()[0]);
+					</script>
+				</button>
+				<button id="prepareCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="prepareCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+					取消
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						prepareDialog.hide();
+					</script>
+				</button>
+			</div>
+		</div>
+		<div id="rel_language_wordDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_language_wordDialog" data-dojo-props="closable:true">
+			<div id="rel_language_wordGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_language_wordGrid" data-dojo-props="
+				cacheClass:'gridx/core/model/cache/Async',
+				structure:rel_language_wordGrid_structure,
+				store:rel_language_wordGrid_store,
+				autoHeight:true,
+				paginationBarSizes:[10],
+				modules:[
+					'gridx/modules/HScroller',
+					'gridx/modules/VScroller',
+					'gridx/modules/ColumnResizer',
+					'gridx/modules/RowHeader',
+					'gridx/modules/select/Row',
+					'gridx/modules/IndirectSelect',
+					'gridx/modules/Filter',
+					{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
+					'gridx/modules/filter/QuickFilter',
+					'gridx/modules/NestedSort',
+					'gridx/modules/Pagination',
+					'gridx/modules/pagination/PaginationBar'],
+				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
+				sortInitialOrder:[{colId:'lssort',descending:false}],
+				filterServerMode:true,
+				filterSetupQuery:rel_language_wordGrid_filterSetupQuery">
+			</div>
+		</div>
+		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>
+		<script src="_part_word.js"></script>
+	</body>
+</html>

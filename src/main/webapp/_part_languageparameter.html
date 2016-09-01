@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>語言參數</title>
+		<style type="text/css">
+			@import "../libdojo/dijit/themes/claro/claro.css";
+			@import "../libdojo/dijit/themes/claro/document.css";
+			@import "../libdojo/gridx/resources/claro/Gridx.css";
+			@import "../libdojo/lang/widget/style/MessageArea.css";
+			@import "_part.css";
+		</style>
+	</head>
+	<body class="claro">
+		<div id="loading"><div id="loadingMsg">Loading...</div></div>
+		<div id="msgArea" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgArea" data-dojo-props="messages:msgArea_messages"></div>
+		<button id="queryButton" data-dojo-type="dijit/form/Button" data-dojo-id="queryButton" data-dojo-props="iconClass:'dijitIcon dijitIconSearch'" type="button" disabled="disabled">
+			查詢
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				grid.model.clearCache();
+				grid.body.refresh();
+			</script>
+		</button>
+		<button id="addButton" data-dojo-type="dijit/form/Button" data-dojo-id="addButton" data-dojo-props="iconClass:'dijitIcon dijitIconFile'" type="button" disabled="disabled">
+			新增
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_prepareAdd();
+			</script>
+		</button>
+		<button id="updateButton" data-dojo-type="dijit/form/Button" data-dojo-id="updateButton" data-dojo-props="iconClass:'dijitIcon dijitIconEdit'" type="button" disabled="disabled">
+			修改
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_prepareUpdate(grid.select.row.getSelected()[0]);
+			</script>
+		</button>
+		<button id="deleteButton" data-dojo-type="dijit/form/Button" data-dojo-id="deleteButton" data-dojo-props="iconClass:'dijitIcon dijitIconDelete'" type="button" disabled="disabled">
+			刪除
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_checkDelete(grid.select.row.getSelected());
+			</script>
+		</button>
+		<button id="languageLink" data-dojo-type="dijit/form/Button" data-dojo-id="languageLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
+			語言
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_language.html?"+"lsid="+grid.row(grid.select.row.getSelected()).data().lplsid;
+			</script>
+		</button>
+		<div id="grid" data-dojo-type="gridx/Grid" data-dojo-id="grid" data-dojo-props="
+			cacheClass:'gridx/core/model/cache/Async',
+			structure:grid_structure,
+			store:grid_store,
+			autoWidth:true,
+			autoHeight:true,
+			modules:[
+				'gridx/modules/HScroller',
+				'gridx/modules/VScroller',
+				'gridx/modules/ColumnResizer',
+				'gridx/modules/RowHeader',
+				'gridx/modules/select/Row',
+				'gridx/modules/IndirectSelect',
+				'gridx/modules/Filter',
+				{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
+				'gridx/modules/filter/QuickFilter',
+				'gridx/modules/NestedSort',
+				'gridx/modules/Pagination',
+				'gridx/modules/pagination/PaginationBar'],
+			paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
+			sortInitialOrder:[{colId:'lplsid',descending:false}],
+			filterServerMode:true,
+			filterSetupQuery:grid_filterSetupQuery">
+		</div>
+		<div id="addDialog" title="新增" data-dojo-type="dijit/Dialog" data-dojo-id="addDialog" data-dojo-props="closable:false">
+			<form id="addForm" data-dojo-type="dijit/form/Form" data-dojo-id="addForm">
+				<div class="dijitDialogPaneContentArea">
+					<div id="msgAreaAdd" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaAdd" data-dojo-props="messages:msgAreaAdd_messages"></div>
+					<table>
+						<tr>
+							<td><label for="lplsid">語言編碼</label></td>
+							<td>
+								<input id="add_lplsid" name="lplsid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_lplsid" required="required" maxlength="16"/>
+							</td>
+							<td><a id="add_lplsidAssist" class="assist" href="#" onclick="f_assistBegin([add_lplsid],['lsid'],rel_language_languageParameterDialog,rel_language_languageParameterGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+						</tr>
+						<tr>
+							<td><label for="lpsgng">MaxNGram</label></td>
+							<td>
+								<input id="add_lpsgng" name="lpsgng" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lpsgng" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgch">NumChars</label></td>
+							<td>
+								<input id="add_lpsgch" name="lpsgch" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lpsgch" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsglf">Lambda</label></td>
+							<td>
+								<input id="add_lpsglf" name="lpsglf" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lpsglf" required="required" constraints="{pattern:'00.0'}" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgcw">ContiWeight</label></td>
+							<td>
+								<input id="add_lpsgcw" name="lpsgcw" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lpsgcw" required="required" constraints="{pattern:'00.0'}" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgbw">BreakWeight</label></td>
+							<td>
+								<input id="add_lpsgbw" name="lpsgbw" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lpsgbw" required="required" constraints="{pattern:'00.0'}" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgnb">MaxNBest</label></td>
+							<td>
+								<input id="add_lpsgnb" name="lpsgnb" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lpsgnb" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgft">分詞訓練</label></td>
+							<td>
+								<input id="add_lpsgft" name="lpsgft" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_lpsgft" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgfc">分詞編譯</label></td>
+							<td>
+								<input id="add_lpsgfc" name="lpsgfc" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_lpsgfc" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppong">NGram</label></td>
+							<td>
+								<input id="add_lppong" name="lppong" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lppong" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppoch">NumChars</label></td>
+							<td>
+								<input id="add_lppoch" name="lppoch" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lppoch" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppolf">Lambda</label></td>
+							<td>
+								<input id="add_lppolf" name="lppolf" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_lppolf" required="required" constraints="{pattern:'00.0'}" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppoft">POS訓練</label></td>
+							<td>
+								<input id="add_lppoft" name="lppoft" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_lppoft" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppofc">POS編譯</label></td>
+							<td>
+								<input id="add_lppofc" name="lppofc" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_lppofc" required="required" maxlength="32"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="dijitDialogPaneActionBar">
+					<button id="addSubmit" type="submit" data-dojo-type="dijit/form/Button" data-dojo-id="addSubmit" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">確定</button>
+					<button id="addCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="addCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+						取消
+						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+							addDialog.hide();
+						</script>
+					</button>
+				</div>
+				<script type="dojo/on" data-dojo-event="submit" data-dojo-args="evt">
+					evt.preventDefault();
+					if(this.validate()){f_checkAdd().then(f_processAdd);}
+				</script>
+			</form>
+		</div>
+		<div id="updateDialog" title="修改" data-dojo-type="dijit/Dialog" data-dojo-id="updateDialog" data-dojo-props="closable:false">
+			<form id="updateForm" data-dojo-type="dijit/form/Form" data-dojo-id="updateForm">
+				<div class="dijitDialogPaneContentArea">
+					<div id="msgAreaUpdate" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaUpdate" data-dojo-props="messages:msgAreaUpdate_messages"></div>
+					<table>
+						<tr>
+							<td><label for="lplsid">語言編碼</label></td>
+							<td><input id="update_lplsid" name="lplsid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_lplsid" required="required" maxlength="16" readonly="readonly"/></td>
+						</tr>
+						<tr>
+							<td><label for="lpsgng">MaxNGram</label></td>
+							<td>
+								<input id="update_lpsgng" name="lpsgng" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lpsgng" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgch">NumChars</label></td>
+							<td>
+								<input id="update_lpsgch" name="lpsgch" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lpsgch" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsglf">Lambda</label></td>
+							<td>
+								<input id="update_lpsglf" name="lpsglf" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lpsglf" required="required" constraints="{pattern:'00.0'}" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgcw">ContiWeight</label></td>
+							<td>
+								<input id="update_lpsgcw" name="lpsgcw" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lpsgcw" required="required" constraints="{pattern:'00.0'}" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgbw">BreakWeight</label></td>
+							<td>
+								<input id="update_lpsgbw" name="lpsgbw" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lpsgbw" required="required" constraints="{pattern:'00.0'}" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgnb">MaxNBest</label></td>
+							<td>
+								<input id="update_lpsgnb" name="lpsgnb" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lpsgnb" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgft">分詞訓練</label></td>
+							<td>
+								<input id="update_lpsgft" name="lpsgft" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_lpsgft" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lpsgfc">分詞編譯</label></td>
+							<td>
+								<input id="update_lpsgfc" name="lpsgfc" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_lpsgfc" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppong">NGram</label></td>
+							<td>
+								<input id="update_lppong" name="lppong" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lppong" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppoch">NumChars</label></td>
+							<td>
+								<input id="update_lppoch" name="lppoch" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lppoch" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppolf">Lambda</label></td>
+							<td>
+								<input id="update_lppolf" name="lppolf" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_lppolf" required="required" constraints="{pattern:'00.0'}" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppoft">POS訓練</label></td>
+							<td>
+								<input id="update_lppoft" name="lppoft" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_lppoft" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="lppofc">POS編譯</label></td>
+							<td>
+								<input id="update_lppofc" name="lppofc" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_lppofc" required="required" maxlength="32"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="dijitDialogPaneActionBar">
+					<button id="updateSubmit" type="submit" data-dojo-type="dijit/form/Button" data-dojo-id="updateSubmit" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">確定</button>
+					<button id="updateCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="updateCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+						取消
+						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+							f_cancelUpdate();
+						</script>
+					</button>
+				</div>
+				<script type="dojo/on" data-dojo-event="submit" data-dojo-args="evt">
+					evt.preventDefault();
+					if(this.validate()){f_checkUpdate().then(f_processUpdate);}
+				</script>
+			</form>
+		</div>
+		<div id="deleteDialog" title="刪除" data-dojo-type="dijit/Dialog" data-dojo-id="deleteDialog" data-dojo-props="closable:false">
+			<div class="dijitDialogPaneContentArea">
+				<div id="msgAreaDelete" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaDelete" data-dojo-props="messages:msgAreaDelete_messages"></div>
+				確定刪除<span id="deleteTip"></span>條記錄？
+			</div>
+			<div class="dijitDialogPaneActionBar">
+				<button id="excludeButton" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="excludeButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconUndo'">
+					排除
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						f_deselect(msgAreaDelete_messages);
+						f_checkDelete(grid.select.row.getSelected());
+					</script>
+				</button>
+				<button id="deleteSubmitButton" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="deleteSubmitButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">
+					確定
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						f_processDelete();
+					</script>
+				</button>
+				<button id="deleteCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="deleteCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+					取消
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						deleteDialog.hide();
+					</script>
+				</button>
+			</div>
+		</div>
+		<div id="prepareDialog" title="準備" data-dojo-type="dijit/Dialog" data-dojo-id="prepareDialog" data-dojo-props="closable:false">
+			<div class="dijitDialogPaneContentArea">
+				<div id="msgAreaPrepare" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaPrepare" data-dojo-props="messages:msgAreaPrepare_messages"></div>
+			</div>
+			<div class="dijitDialogPaneActionBar">
+				<button id="retryUpdateButton" data-dojo-type="dijit/form/Button" data-dojo-id="retryUpdateButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconRedo'" type="button">
+					重試
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						prepareDialog.hide();f_prepareUpdate(grid.select.row.getSelected()[0]);
+					</script>
+				</button>
+				<button id="prepareCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="prepareCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+					取消
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						prepareDialog.hide();
+					</script>
+				</button>
+			</div>
+		</div>
+		<div id="rel_language_languageParameterDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_language_languageParameterDialog" data-dojo-props="closable:true">
+			<div id="rel_language_languageParameterGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_language_languageParameterGrid" data-dojo-props="
+				cacheClass:'gridx/core/model/cache/Async',
+				structure:rel_language_languageParameterGrid_structure,
+				store:rel_language_languageParameterGrid_store,
+				autoHeight:true,
+				paginationBarSizes:[10],
+				modules:[
+					'gridx/modules/HScroller',
+					'gridx/modules/VScroller',
+					'gridx/modules/ColumnResizer',
+					'gridx/modules/RowHeader',
+					'gridx/modules/select/Row',
+					'gridx/modules/IndirectSelect',
+					'gridx/modules/Filter',
+					{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
+					'gridx/modules/filter/QuickFilter',
+					'gridx/modules/NestedSort',
+					'gridx/modules/Pagination',
+					'gridx/modules/pagination/PaginationBar'],
+				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
+				sortInitialOrder:[{colId:'lssort',descending:false}],
+				filterServerMode:true,
+				filterSetupQuery:rel_language_languageParameterGrid_filterSetupQuery">
+			</div>
+		</div>
+		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>
+		<script src="_part_languageparameter.js"></script>
+	</body>
+</html>

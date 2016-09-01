@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>文章</title>
+		<style type="text/css">
+			@import "../libdojo/dijit/themes/claro/claro.css";
+			@import "../libdojo/dijit/themes/claro/document.css";
+			@import "../libdojo/gridx/resources/claro/Gridx.css";
+			@import "../libdojo/lang/widget/style/MessageArea.css";
+			@import "_part.css";
+		</style>
+	</head>
+	<body class="claro">
+		<div id="loading"><div id="loadingMsg">Loading...</div></div>
+		<div id="msgArea" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgArea" data-dojo-props="messages:msgArea_messages"></div>
+		<button id="queryButton" data-dojo-type="dijit/form/Button" data-dojo-id="queryButton" data-dojo-props="iconClass:'dijitIcon dijitIconSearch'" type="button" disabled="disabled">
+			查詢
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				grid.model.clearCache();
+				grid.body.refresh();
+			</script>
+		</button>
+		<button id="addButton" data-dojo-type="dijit/form/Button" data-dojo-id="addButton" data-dojo-props="iconClass:'dijitIcon dijitIconFile'" type="button" disabled="disabled">
+			新增
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_prepareAdd();
+			</script>
+		</button>
+		<button id="updateButton" data-dojo-type="dijit/form/Button" data-dojo-id="updateButton" data-dojo-props="iconClass:'dijitIcon dijitIconEdit'" type="button" disabled="disabled">
+			修改
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_prepareUpdate(grid.select.row.getSelected()[0]);
+			</script>
+		</button>
+		<button id="deleteButton" data-dojo-type="dijit/form/Button" data-dojo-id="deleteButton" data-dojo-props="iconClass:'dijitIcon dijitIconDelete'" type="button" disabled="disabled">
+			刪除
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				f_checkDelete(grid.select.row.getSelected());
+			</script>
+		</button>
+		<button id="userLink" data-dojo-type="dijit/form/Button" data-dojo-id="userLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
+			用戶
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_user.html?"+"usid="+grid.row(grid.select.row.getSelected()).data().atusid;
+			</script>
+		</button>
+		<button id="categoryLink" data-dojo-type="dijit/form/Button" data-dojo-id="categoryLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
+			分類
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_category.html?"+"cgid="+grid.row(grid.select.row.getSelected()).data().atcgid;
+			</script>
+		</button>
+		<button id="sentenceLink" data-dojo-type="dijit/form/Button" data-dojo-id="sentenceLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
+			文句
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_sentence.html?"+"asatid="+grid.row(grid.select.row.getSelected()).data().atid;
+			</script>
+		</button>
+		<div id="grid" data-dojo-type="gridx/Grid" data-dojo-id="grid" data-dojo-props="
+			cacheClass:'gridx/core/model/cache/Async',
+			structure:grid_structure,
+			store:grid_store,
+			autoWidth:true,
+			autoHeight:true,
+			modules:[
+				'gridx/modules/HScroller',
+				'gridx/modules/VScroller',
+				'gridx/modules/ColumnResizer',
+				'gridx/modules/RowHeader',
+				'gridx/modules/select/Row',
+				'gridx/modules/IndirectSelect',
+				'gridx/modules/Filter',
+				{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
+				'gridx/modules/filter/QuickFilter',
+				'gridx/modules/NestedSort',
+				'gridx/modules/Pagination',
+				'gridx/modules/pagination/PaginationBar'],
+			paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
+			sortInitialOrder:[{colId:'atcgid',descending:false},{colId:'atsi',descending:false}],
+			filterServerMode:true,
+			filterSetupQuery:grid_filterSetupQuery">
+		</div>
+		<div id="addDialog" title="新增" data-dojo-type="dijit/Dialog" data-dojo-id="addDialog" data-dojo-props="closable:false">
+			<form id="addForm" data-dojo-type="dijit/form/Form" data-dojo-id="addForm">
+				<div class="dijitDialogPaneContentArea">
+					<div id="msgAreaAdd" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaAdd" data-dojo-props="messages:msgAreaAdd_messages"></div>
+					<table>
+						<tr>
+							<td><label for="atcgid">分類編碼</label></td>
+							<td>
+								<input id="add_atcgid" name="atcgid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_atcgid" required="required" maxlength="8"/>
+							</td>
+							<td><a id="add_atcgidAssist" class="assist" href="#" onclick="f_assistBegin([add_atcgid],['cgid'],rel_category_articleDialog,rel_category_articleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+						</tr>
+						<tr>
+							<td><label for="atsi">子項號</label></td>
+							<td>
+								<input id="add_atsi" name="atsi" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_atsi" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atname">文章名稱</label></td>
+							<td>
+								<input id="add_atname" name="atname" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_atname" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atusid">擁有者</label></td>
+							<td>
+								<input id="add_atusid" name="atusid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_atusid" required="required" maxlength="32"/>
+							</td>
+							<td><a id="add_atusidAssist" class="assist" href="#" onclick="f_assistBegin([add_atusid],['usid'],rel_user_articleDialog,rel_user_articleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+						</tr>
+						<tr>
+							<td><label for="atupdd">更新日腳</label></td>
+							<td>
+								<input id="add_atupdd" name="atupdd" type="text" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}" data-dojo-id="add_atupdd" required="required" maxlength="10" readonly="readonly"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atupdt">更新辰光</label></td>
+							<td>
+								<input id="add_atupdt" name="atupdt" type="text" data-dojo-type="dijit/form/TimeTextBox" data-dojo-props="constraints:{timePattern:'HH:mm:ss'}" data-dojo-id="add_atupdt" required="required" maxlength="8" readonly="readonly"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcgname">:分類名稱</label></td>
+							<td>
+								<input id="add_atcgname" name="atcgname" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_atcgname" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsa">:A類</label></td>
+							<td>
+								<input id="add_atcsa" name="atcsa" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_atcsa" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsb">:B類</label></td>
+							<td>
+								<input id="add_atcsb" name="atcsb" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_atcsb" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsc">:C類</label></td>
+							<td>
+								<input id="add_atcsc" name="atcsc" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_atcsc" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsd">:D類</label></td>
+							<td>
+								<input id="add_atcsd" name="atcsd" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_atcsd" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcse">:E類</label></td>
+							<td>
+								<input id="add_atcse" name="atcse" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_atcse" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsf">:F類</label></td>
+							<td>
+								<input id="add_atcsf" name="atcsf" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_atcsf" maxlength="4"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="dijitDialogPaneActionBar">
+					<button id="addSubmit" type="submit" data-dojo-type="dijit/form/Button" data-dojo-id="addSubmit" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">確定</button>
+					<button id="addCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="addCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+						取消
+						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+							addDialog.hide();
+						</script>
+					</button>
+				</div>
+				<script type="dojo/on" data-dojo-event="submit" data-dojo-args="evt">
+					evt.preventDefault();
+					if(this.validate()){f_checkAdd().then(f_processAdd);}
+				</script>
+			</form>
+		</div>
+		<div id="updateDialog" title="修改" data-dojo-type="dijit/Dialog" data-dojo-id="updateDialog" data-dojo-props="closable:false">
+			<form id="updateForm" data-dojo-type="dijit/form/Form" data-dojo-id="updateForm">
+				<div class="dijitDialogPaneContentArea">
+					<div id="msgAreaUpdate" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaUpdate" data-dojo-props="messages:msgAreaUpdate_messages"></div>
+					<table>
+						<tr>
+							<td><label for="atid">文章編碼</label></td>
+							<td><input id="update_atid" name="atid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atid" required="required" maxlength="8" readonly="readonly"/></td>
+						</tr>
+						<tr>
+							<td><label for="atcgid">分類編碼</label></td>
+							<td>
+								<input id="update_atcgid" name="atcgid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atcgid" required="required" maxlength="8"/>
+							</td>
+							<td><a id="update_atcgidAssist" class="assist" href="#" onclick="f_assistBegin([update_atcgid],['cgid'],rel_category_articleDialog,rel_category_articleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+						</tr>
+						<tr>
+							<td><label for="atsi">子項號</label></td>
+							<td>
+								<input id="update_atsi" name="atsi" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atsi" required="required" maxlength="8"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atname">文章名稱</label></td>
+							<td>
+								<input id="update_atname" name="atname" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_atname" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atusid">擁有者</label></td>
+							<td>
+								<input id="update_atusid" name="atusid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_atusid" required="required" maxlength="32"/>
+							</td>
+							<td><a id="update_atusidAssist" class="assist" href="#" onclick="f_assistBegin([update_atusid],['usid'],rel_user_articleDialog,rel_user_articleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+						</tr>
+						<tr>
+							<td><label for="atupdd">更新日腳</label></td>
+							<td>
+								<input id="update_atupdd" name="atupdd" type="text" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}" data-dojo-id="update_atupdd" required="required" maxlength="10" readonly="readonly"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atupdt">更新辰光</label></td>
+							<td>
+								<input id="update_atupdt" name="atupdt" type="text" data-dojo-type="dijit/form/TimeTextBox" data-dojo-props="constraints:{timePattern:'HH:mm:ss'}" data-dojo-id="update_atupdt" required="required" maxlength="8" readonly="readonly"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcgname">:分類名稱</label></td>
+							<td>
+								<input id="update_atcgname" name="atcgname" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_atcgname" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsa">:A類</label></td>
+							<td>
+								<input id="update_atcsa" name="atcsa" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atcsa" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsb">:B類</label></td>
+							<td>
+								<input id="update_atcsb" name="atcsb" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atcsb" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsc">:C類</label></td>
+							<td>
+								<input id="update_atcsc" name="atcsc" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atcsc" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsd">:D類</label></td>
+							<td>
+								<input id="update_atcsd" name="atcsd" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atcsd" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcse">:E類</label></td>
+							<td>
+								<input id="update_atcse" name="atcse" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atcse" maxlength="4"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="atcsf">:F類</label></td>
+							<td>
+								<input id="update_atcsf" name="atcsf" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_atcsf" maxlength="4"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="dijitDialogPaneActionBar">
+					<button id="updateSubmit" type="submit" data-dojo-type="dijit/form/Button" data-dojo-id="updateSubmit" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">確定</button>
+					<button id="updateCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="updateCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+						取消
+						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+							f_cancelUpdate();
+						</script>
+					</button>
+				</div>
+				<script type="dojo/on" data-dojo-event="submit" data-dojo-args="evt">
+					evt.preventDefault();
+					if(this.validate()){f_checkUpdate().then(f_processUpdate);}
+				</script>
+			</form>
+		</div>
+		<div id="deleteDialog" title="刪除" data-dojo-type="dijit/Dialog" data-dojo-id="deleteDialog" data-dojo-props="closable:false">
+			<div class="dijitDialogPaneContentArea">
+				<div id="msgAreaDelete" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaDelete" data-dojo-props="messages:msgAreaDelete_messages"></div>
+				確定刪除<span id="deleteTip"></span>條記錄？
+			</div>
+			<div class="dijitDialogPaneActionBar">
+				<button id="excludeButton" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="excludeButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconUndo'">
+					排除
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						f_deselect(msgAreaDelete_messages);
+						f_checkDelete(grid.select.row.getSelected());
+					</script>
+				</button>
+				<button id="deleteSubmitButton" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="deleteSubmitButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'">
+					確定
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						f_processDelete();
+					</script>
+				</button>
+				<button id="deleteCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="deleteCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+					取消
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						deleteDialog.hide();
+					</script>
+				</button>
+			</div>
+		</div>
+		<div id="prepareDialog" title="準備" data-dojo-type="dijit/Dialog" data-dojo-id="prepareDialog" data-dojo-props="closable:false">
+			<div class="dijitDialogPaneContentArea">
+				<div id="msgAreaPrepare" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaPrepare" data-dojo-props="messages:msgAreaPrepare_messages"></div>
+			</div>
+			<div class="dijitDialogPaneActionBar">
+				<button id="retryUpdateButton" data-dojo-type="dijit/form/Button" data-dojo-id="retryUpdateButton" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconRedo'" type="button">
+					重試
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						prepareDialog.hide();f_prepareUpdate(grid.select.row.getSelected()[0]);
+					</script>
+				</button>
+				<button id="prepareCancel" type="button" data-dojo-type="dijit/form/Button" data-dojo-id="prepareCancel" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCancel'">
+					取消
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						prepareDialog.hide();
+					</script>
+				</button>
+			</div>
+		</div>
+		<div id="rel_user_articleDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_user_articleDialog" data-dojo-props="closable:true">
+			<div id="rel_user_articleGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_user_articleGrid" data-dojo-props="
+				cacheClass:'gridx/core/model/cache/Async',
+				structure:rel_user_articleGrid_structure,
+				store:rel_user_articleGrid_store,
+				autoHeight:true,
+				paginationBarSizes:[10],
+				modules:[
+					'gridx/modules/HScroller',
+					'gridx/modules/VScroller',
+					'gridx/modules/ColumnResizer',
+					'gridx/modules/RowHeader',
+					'gridx/modules/select/Row',
+					'gridx/modules/IndirectSelect',
+					'gridx/modules/Filter',
+					{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
+					'gridx/modules/filter/QuickFilter',
+					'gridx/modules/NestedSort',
+					'gridx/modules/Pagination',
+					'gridx/modules/pagination/PaginationBar'],
+				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
+				sortInitialOrder:[{colId:'usid',descending:false}],
+				filterServerMode:true,
+				filterSetupQuery:rel_user_articleGrid_filterSetupQuery">
+			</div>
+		</div>
+		<div id="rel_category_articleDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_category_articleDialog" data-dojo-props="closable:true">
+			<div id="rel_category_articleGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_category_articleGrid" data-dojo-props="
+				cacheClass:'gridx/core/model/cache/Async',
+				structure:rel_category_articleGrid_structure,
+				store:rel_category_articleGrid_store,
+				autoHeight:true,
+				paginationBarSizes:[10],
+				modules:[
+					'gridx/modules/HScroller',
+					'gridx/modules/VScroller',
+					'gridx/modules/ColumnResizer',
+					'gridx/modules/RowHeader',
+					'gridx/modules/select/Row',
+					'gridx/modules/IndirectSelect',
+					'gridx/modules/Filter',
+					{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
+					'gridx/modules/filter/QuickFilter',
+					'gridx/modules/NestedSort',
+					'gridx/modules/Pagination',
+					'gridx/modules/pagination/PaginationBar'],
+				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
+				sortInitialOrder:[{colId:'cglsid',descending:false},{colId:'cgpsi',descending:false},{colId:'cgsi',descending:false}],
+				filterServerMode:true,
+				filterSetupQuery:rel_category_articleGrid_filterSetupQuery">
+			</div>
+		</div>
+		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>
+		<script src="_part_article.js"></script>
+	</body>
+</html>

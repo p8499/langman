@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Signin</title>
+		<style type="text/css">
+			@import "../libdojo/dijit/themes/claro/claro.css";
+			@import "../libdojo/dijit/themes/claro/document.css";
+			@import "../libdojo/lang/widget/style/MessageArea.css";
+			@import "signin.css";
+		</style>
+	</head>
+	<body class="claro">
+		<div id="loading"><div id="loadingMsg">Loading...</div></div>
+		<div id="layoutContainer" data-dojo-type="dijit/layout/LayoutContainer" design="headline">
+			<div id="topPane" data-dojo-type="dijit/layout/ContentPane" region="top">.</div>
+			<div id="centerPane" data-dojo-type="dijit/layout/ContentPane" region="center">
+				<div id="signinDialog" title="系統登錄" data-dojo-type="dijit/Dialog" data-dojo-id="signinDialog" closable="false">
+					<form id="signinForm" data-dojo-type="dijit/form/Form">
+						<div class="dijitDialogPaneContentArea">
+							<div id="msgArea" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgArea" data-dojo-props="messages:msgArea_messages"></div>
+							<table>
+								<tr>
+									<td>
+										<label for="usid">名稱：</label>
+									</td>
+									<td>
+										<input name="usid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="usid"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="uspswd">密碼：</label>
+									</td>
+									<td>
+										<input name="uspswd" type="password" data-dojo-type="dijit/form/TextBox" data-dojo-id="uspswd"/>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="dijitDialogPaneActionBar">
+							<button type="submit" data-dojo-type="dijit/form/Button">登錄</button>
+						</div>
+						<script type="dojo/on" data-dojo-event="submit" data-dojo-args="evt">
+							evt.preventDefault();
+							f_signin().then(f_gotoMain,f_setErrorSignin);
+						</script>
+					</form>
+				</div>
+			</div>
+			<div id="bottomPane" data-dojo-type="dijit/layout/ContentPane" region="bottom">.</div>
+		</div>
+		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>
+		<script src="signin.js"></script>
+	</body>
+</html>

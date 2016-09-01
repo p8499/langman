@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Index</title>
+		<style type="text/css">
+			@import "../libdojo/dijit/themes/claro/claro.css";
+			@import "../libdojo/dijit/themes/claro/document.css";
+			@import "index.css";
+		</style>
+	</head>
+	<body class="claro">
+		<div id="loading"><div id="loadingMsg">Loading...</div></div>
+		<div id="layoutContainer" data-dojo-type="dijit/layout/LayoutContainer" design="headline">
+			<div id="topPane" data-dojo-type="dijit/layout/ContentPane" region="top">
+				<span id="userSpan"></span>
+				<button type="button" data-dojo-type="dijit/form/Button">
+					登出
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						f_signout().then(f_gotoSignin);
+					</script>
+				</button>
+			</div>
+			<div id="centerPane" data-dojo-type="dijit/layout/ContentPane" data-dojo-id="centerPane" region="center">
+				<div id="menuPane">
+					<div data-dojo-type="dijit/MenuBar">
+						<div data-dojo-type="dijit/MenuBarItem">
+							歡迎
+							<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+								f_load("_part_welcome");
+							</script>
+						</div>
+						<div data-dojo-type="dijit/PopupMenuBarItem">
+							<span>系統</span>
+							<div data-dojo-type="dijit/DropDownMenu">
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'role'">
+									角色
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_role");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'user'">
+									用戶
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_user");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'role'">
+									角色--權限
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_roleauthority");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'usrl'">
+									用戶--角色
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_userrole");
+									</script>
+								</div>
+							</div>
+						</div>
+						<div data-dojo-type="dijit/PopupMenuBarItem">
+							<span>基礎</span>
+							<div data-dojo-type="dijit/DropDownMenu">
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'lang'">
+									語言
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_language");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'lang'">
+									語言參數
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_languageparameter");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'pron'">
+									字音
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_pronounce");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'word'">
+									詞音
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_word");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'chnk'">
+									組合
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_chunk");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'ckct'">
+									組合條件
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_chunkcriteria");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'cate'">
+									分類
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_category");
+									</script>
+								</div>
+							</div>
+						</div>
+						<div data-dojo-type="dijit/PopupMenuBarItem">
+							<span>文庫</span>
+							<div data-dojo-type="dijit/DropDownMenu">
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'wdfl'">
+									詞音線程
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_wordflow");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'wdvt'">
+									詞音線程投票
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_wordvote");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'artc'">
+									文章
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_article");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'sent'">
+									文句
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_sentence");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'sgmt'">
+									分詞
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_segment");
+									</script>
+								</div>
+								
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'sgfl'">
+									分詞線程
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_segmentflow");
+									</script>
+								</div>
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'sgvt'">
+									分詞線程投票
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_segmentvote");
+									</script>
+								</div>
+								
+								
+								
+								<div class="auth" data-dojo-type="dijit/MenuItem" data-dojo-props="disabled:true,auth:'post'">
+									標註
+									<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+										f_load("_part_tagging");
+									</script>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="contentPane">
+					<iframe id="contentFrame"></iframe>
+				</div>
+			</div>
+			<div id="bottomPane" data-dojo-type="dijit/layout/ContentPane" region="bottom">.</div>
+		</div>
+		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>
+		<script src="index.js"></script>
+	</body>
+</html>

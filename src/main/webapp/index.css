@@ -1,0 +1,51 @@
+html, body
+{	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+#loading
+{	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1001;
+	display: block;
+	background:  #fff url('../libdojo/dijit/themes/claro/images/loadingAnimation.gif') no-repeat 10px 23px;
+}
+#loadingMsg
+{	padding: 25px 40px;
+	color: #999;
+}
+#layoutContainer
+{	width: 100%;
+	height: 100%;
+}
+#topPane
+{	height: 35px;
+	text-align: right;
+}
+#centerPane
+{	width: 100%;
+	height: 100%;
+}
+#bottomPane
+{	height: 20px;
+}
+#menuPane
+{	width: 100%;
+    height: 28px;
+}
+#contentPane
+{	position: absolute;
+	top: 36px;
+	bottom: 8px;
+	left: 8px;
+	right: 8px;
+}
+#contentFrame
+{	border: 0;
+	width: 100%;
+	height: 100%;
+}

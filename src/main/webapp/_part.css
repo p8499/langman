@@ -1,0 +1,63 @@
+html, body
+{	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+#loading
+{	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1001;
+	display: block;
+	background:  #fff url('../libdojo/dijit/themes/claro/images/loadingAnimation.gif') no-repeat 10px 23px;
+}
+#loadingMsg
+{	padding: 25px 40px;
+	color: #999;
+}
+a.assist
+{	background: url(img/assist.gif) no-repeat;
+	display: block;
+	width: 14px;
+	height: 14px;
+}
+a.assist:link
+{	text-decoration: none;
+}
+a.assist:visited
+{	text-decoration: none;
+}
+a.assist:hover
+{	text-decoration: none;
+}
+a.assist:active
+{	text-decoration: none;
+}
+a.encrypt
+{	background: url(img/encrypt.bmp) no-repeat;
+	display: block;
+	width: 14px;
+	height: 14px;
+}
+a.encrypt:link
+{	text-decoration: none;
+}
+a.encrypt:visited
+{	text-decoration: none;
+}
+a.encrypt:hover
+{	text-decoration: none;
+}
+a.encrypt:active
+{	text-decoration: none;
+}
+div.assistDialog
+{	width: 600px;
+}
+div.assistGrid
+{	width: 584px;
+	height: 379px;
+}
