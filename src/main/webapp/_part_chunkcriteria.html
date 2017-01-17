@@ -79,7 +79,7 @@
 							<td>
 								<input id="add_cccpid" name="cccpid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_cccpid" required="required" maxlength="8"/>
 							</td>
-							<td><a id="add_cccpidAssist" class="assist" href="#" onclick="f_assistBegin([add_cccpid],['cpid'],rel_chunk_chunkCriteriaDialog,rel_chunk_chunkCriteriaGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="add_cccpidAssist" class="assist" href="#" onclick="f_assistBegin([add_cccpid],['cpid'],rel_chunk_chunkcriteriaDialog,rel_chunk_chunkcriteriaGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 						<tr>
 							<td><label for="ccsi">子項號</label></td>
@@ -130,7 +130,7 @@
 							<td>
 								<input id="update_cccpid" name="cccpid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_cccpid" required="required" maxlength="8"/>
 							</td>
-							<td><a id="update_cccpidAssist" class="assist" href="#" onclick="f_assistBegin([update_cccpid],['cpid'],rel_chunk_chunkCriteriaDialog,rel_chunk_chunkCriteriaGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="update_cccpidAssist" class="assist" href="#" onclick="f_assistBegin([update_cccpid],['cpid'],rel_chunk_chunkcriteriaDialog,rel_chunk_chunkcriteriaGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 						<tr>
 							<td><label for="ccsi">子項號</label></td>
@@ -213,11 +213,11 @@
 				</button>
 			</div>
 		</div>
-		<div id="rel_chunk_chunkCriteriaDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_chunk_chunkCriteriaDialog" data-dojo-props="closable:true">
-			<div id="rel_chunk_chunkCriteriaGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_chunk_chunkCriteriaGrid" data-dojo-props="
+		<div id="rel_chunk_chunkcriteriaDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_chunk_chunkcriteriaDialog" data-dojo-props="closable:true">
+			<div id="rel_chunk_chunkcriteriaGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_chunk_chunkcriteriaGrid" data-dojo-props="
 				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_chunk_chunkCriteriaGrid_structure,
-				store:rel_chunk_chunkCriteriaGrid_store,
+				structure:rel_chunk_chunkcriteriaGrid_structure,
+				store:rel_chunk_chunkcriteriaGrid_store,
 				autoHeight:true,
 				paginationBarSizes:[10],
 				modules:[
@@ -236,7 +236,7 @@
 				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
 				sortInitialOrder:[{colId:'cplsid',descending:false},{colId:'cpsi',descending:false}],
 				filterServerMode:true,
-				filterSetupQuery:rel_chunk_chunkCriteriaGrid_filterSetupQuery">
+				filterSetupQuery:rel_chunk_chunkcriteriaGrid_filterSetupQuery">
 			</div>
 		</div>
 		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>

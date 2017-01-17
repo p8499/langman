@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>分詞</title>
+		<title>用戶創建</title>
 		<style type="text/css">
 			@import "../libdojo/dijit/themes/claro/claro.css";
 			@import "../libdojo/dijit/themes/claro/document.css";
@@ -39,18 +39,6 @@
 				f_checkDelete(grid.select.row.getSelected());
 			</script>
 		</button>
-		<button id="sentenceLink" data-dojo-type="dijit/form/Button" data-dojo-id="sentenceLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
-			文句
-			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-				window.location="_part_sentence.html?"+"asid="+grid.row(grid.select.row.getSelected()).data().trasid;
-			</script>
-		</button>
-		<button id="userLink" data-dojo-type="dijit/form/Button" data-dojo-id="userLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
-			用戶
-			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-				window.location="_part_user.html?"+"usid="+grid.row(grid.select.row.getSelected()).data().trusid;
-			</script>
-		</button>
 		<div id="grid" data-dojo-type="gridx/Grid" data-dojo-id="grid" data-dojo-props="
 			cacheClass:'gridx/core/model/cache/Async',
 			structure:grid_structure,
@@ -71,7 +59,7 @@
 				'gridx/modules/Pagination',
 				'gridx/modules/pagination/PaginationBar'],
 			paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
-			sortInitialOrder:[{colId:'trasid',descending:false}],
+			sortInitialOrder:[{colId:'uccrdd',descending:true},{colId:'uccrdt',descending:true},{colId:'ucusid',descending:false}],
 			filterServerMode:true,
 			filterSetupQuery:grid_filterSetupQuery">
 		</div>
@@ -81,50 +69,45 @@
 					<div id="msgAreaAdd" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaAdd" data-dojo-props="messages:msgAreaAdd_messages"></div>
 					<table>
 						<tr>
-							<td><label for="trasid">文句編碼</label></td>
+							<td><label for="uccrdd">創建日腳</label></td>
 							<td>
-								<input id="add_trasid" name="trasid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_trasid" required="required" maxlength="8"/>
-							</td>
-							<td><a id="add_trasidAssist" class="assist" href="#" onclick="f_assistBegin([add_trasid],['asid'],rel_sentence_segmentDialog,rel_sentence_segmentGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
-						</tr>
-						<tr>
-							<td><label for="trpi">拼音聲調</label></td>
-							<td>
-								<input id="add_trpi" name="trpi" type="text" data-dojo-type="dijit/form/Textarea" data-dojo-id="add_trpi" required="required" maxlength="1024"/>
+								<input id="add_uccrdd" name="uccrdd" type="text" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}" data-dojo-id="add_uccrdd" required="required" maxlength="10" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr>
-							<td><label for="trhz">漢字</label></td>
+							<td><label for="uccrdt">創建辰光</label></td>
 							<td>
-								<input id="add_trhz" name="trhz" type="text" data-dojo-type="dijit/form/Textarea" data-dojo-id="add_trhz" required="required" maxlength="128"/>
+								<input id="add_uccrdt" name="uccrdt" type="text" data-dojo-type="dijit/form/TimeTextBox" data-dojo-props="constraints:{timePattern:'HH:mm:ss'}" data-dojo-id="add_uccrdt" required="required" maxlength="8" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr>
-							<td><label for="trst">狀態</label></td>
+							<td><label for="ucusid">目標用戶名</label></td>
 							<td>
-								<select id="add_trst" name="trst" data-dojo-type="dijit/form/Select" data-dojo-id="add_trst" required="required"">
-									<option value="-1" >Disabled</option>
-									<option value="0" selected="selected">Enabled</option>
+								<input id="add_ucusid" name="ucusid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_ucusid" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="ucpv">圖片驗證碼</label></td>
+							<td>
+								<input id="add_ucpv" name="ucpv" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_ucpv" required="required" maxlength="6"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="ucmv">短信驗證碼</label></td>
+							<td>
+								<input id="add_ucmv" name="ucmv" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_ucmv" required="required" maxlength="6"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="ucst">狀態</label></td>
+							<td>
+								<select id="add_ucst" name="ucst" data-dojo-type="dijit/form/Select" data-dojo-id="add_ucst" required="required"">
+									<option value="-1" >Invalid</option>
+									<option value="0" selected="selected">Initial</option>
+									<option value="1" >Waiting</option>
+									<option value="2" >Sent</option>
+									<option value="3" >Finalized</option>
 								</select>
-							</td>
-						</tr>
-						<tr>
-							<td><label for="trusid">擁有者</label></td>
-							<td>
-								<input id="add_trusid" name="trusid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_trusid" required="required" maxlength="32"/>
-							</td>
-							<td><a id="add_trusidAssist" class="assist" href="#" onclick="f_assistBegin([add_trusid],['usid'],rel_user_segmentDialog,rel_user_segmentGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
-						</tr>
-						<tr>
-							<td><label for="trupdd">更新日腳</label></td>
-							<td>
-								<input id="add_trupdd" name="trupdd" type="text" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}" data-dojo-id="add_trupdd" required="required" maxlength="10" readonly="readonly"/>
-							</td>
-						</tr>
-						<tr>
-							<td><label for="trupdt">更新辰光</label></td>
-							<td>
-								<input id="add_trupdt" name="trupdt" type="text" data-dojo-type="dijit/form/TimeTextBox" data-dojo-props="constraints:{timePattern:'HH:mm:ss'}" data-dojo-id="add_trupdt" required="required" maxlength="8" readonly="readonly"/>
 							</td>
 						</tr>
 					</table>
@@ -150,47 +133,49 @@
 					<div id="msgAreaUpdate" data-dojo-type="lang/widget/MessageArea" data-dojo-id="msgAreaUpdate" data-dojo-props="messages:msgAreaUpdate_messages"></div>
 					<table>
 						<tr>
-							<td><label for="trasid">文句編碼</label></td>
-							<td><input id="update_trasid" name="trasid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_trasid" required="required" maxlength="8" readonly="readonly"/></td>
+							<td><label for="ucid">創建編碼</label></td>
+							<td><input id="update_ucid" name="ucid" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_ucid" required="required" maxlength="8" readonly="readonly"/></td>
 						</tr>
 						<tr>
-							<td><label for="trpi">拼音聲調</label></td>
+							<td><label for="uccrdd">創建日腳</label></td>
 							<td>
-								<input id="update_trpi" name="trpi" type="text" data-dojo-type="dijit/form/Textarea" data-dojo-id="update_trpi" required="required" maxlength="1024"/>
+								<input id="update_uccrdd" name="uccrdd" type="text" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}" data-dojo-id="update_uccrdd" required="required" maxlength="10" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr>
-							<td><label for="trhz">漢字</label></td>
+							<td><label for="uccrdt">創建辰光</label></td>
 							<td>
-								<input id="update_trhz" name="trhz" type="text" data-dojo-type="dijit/form/Textarea" data-dojo-id="update_trhz" required="required" maxlength="128"/>
+								<input id="update_uccrdt" name="uccrdt" type="text" data-dojo-type="dijit/form/TimeTextBox" data-dojo-props="constraints:{timePattern:'HH:mm:ss'}" data-dojo-id="update_uccrdt" required="required" maxlength="8" readonly="readonly"/>
 							</td>
 						</tr>
 						<tr>
-							<td><label for="trst">狀態</label></td>
+							<td><label for="ucusid">目標用戶名</label></td>
 							<td>
-								<select id="update_trst" name="trst" data-dojo-type="dijit/form/Select" data-dojo-id="update_trst" required="required">
-									<option value="-1" >Disabled</option>
-									<option value="0" selected="selected">Enabled</option>
+								<input id="update_ucusid" name="ucusid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_ucusid" required="required" maxlength="32"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="ucpv">圖片驗證碼</label></td>
+							<td>
+								<input id="update_ucpv" name="ucpv" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_ucpv" required="required" maxlength="6"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="ucmv">短信驗證碼</label></td>
+							<td>
+								<input id="update_ucmv" name="ucmv" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_ucmv" required="required" maxlength="6"/>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="ucst">狀態</label></td>
+							<td>
+								<select id="update_ucst" name="ucst" data-dojo-type="dijit/form/Select" data-dojo-id="update_ucst" required="required">
+									<option value="-1" >Invalid</option>
+									<option value="0" selected="selected">Initial</option>
+									<option value="1" >Waiting</option>
+									<option value="2" >Sent</option>
+									<option value="3" >Finalized</option>
 								</select>
-							</td>
-						</tr>
-						<tr>
-							<td><label for="trusid">擁有者</label></td>
-							<td>
-								<input id="update_trusid" name="trusid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_trusid" required="required" maxlength="32"/>
-							</td>
-							<td><a id="update_trusidAssist" class="assist" href="#" onclick="f_assistBegin([update_trusid],['usid'],rel_user_segmentDialog,rel_user_segmentGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
-						</tr>
-						<tr>
-							<td><label for="trupdd">更新日腳</label></td>
-							<td>
-								<input id="update_trupdd" name="trupdd" type="text" data-dojo-type="dijit/form/DateTextBox" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}" data-dojo-id="update_trupdd" required="required" maxlength="10" readonly="readonly"/>
-							</td>
-						</tr>
-						<tr>
-							<td><label for="trupdt">更新辰光</label></td>
-							<td>
-								<input id="update_trupdt" name="trupdt" type="text" data-dojo-type="dijit/form/TimeTextBox" data-dojo-props="constraints:{timePattern:'HH:mm:ss'}" data-dojo-id="update_trupdt" required="required" maxlength="8" readonly="readonly"/>
 							</td>
 						</tr>
 					</table>
@@ -256,59 +241,7 @@
 				</button>
 			</div>
 		</div>
-		<div id="rel_sentence_segmentDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_sentence_segmentDialog" data-dojo-props="closable:true">
-			<div id="rel_sentence_segmentGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_sentence_segmentGrid" data-dojo-props="
-				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_sentence_segmentGrid_structure,
-				store:rel_sentence_segmentGrid_store,
-				autoHeight:true,
-				paginationBarSizes:[10],
-				modules:[
-					'gridx/modules/HScroller',
-					'gridx/modules/VScroller',
-					'gridx/modules/ColumnResizer',
-					'gridx/modules/RowHeader',
-					'gridx/modules/select/Row',
-					'gridx/modules/IndirectSelect',
-					'gridx/modules/Filter',
-					{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
-					'gridx/modules/filter/QuickFilter',
-					'gridx/modules/NestedSort',
-					'gridx/modules/Pagination',
-					'gridx/modules/pagination/PaginationBar'],
-				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
-				sortInitialOrder:[{colId:'asatid',descending:false},{colId:'assi',descending:false}],
-				filterServerMode:true,
-				filterSetupQuery:rel_sentence_segmentGrid_filterSetupQuery">
-			</div>
-		</div>
-		<div id="rel_user_segmentDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_user_segmentDialog" data-dojo-props="closable:true">
-			<div id="rel_user_segmentGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_user_segmentGrid" data-dojo-props="
-				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_user_segmentGrid_structure,
-				store:rel_user_segmentGrid_store,
-				autoHeight:true,
-				paginationBarSizes:[10],
-				modules:[
-					'gridx/modules/HScroller',
-					'gridx/modules/VScroller',
-					'gridx/modules/ColumnResizer',
-					'gridx/modules/RowHeader',
-					'gridx/modules/select/Row',
-					'gridx/modules/IndirectSelect',
-					'gridx/modules/Filter',
-					{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
-					'gridx/modules/filter/QuickFilter',
-					'gridx/modules/NestedSort',
-					'gridx/modules/Pagination',
-					'gridx/modules/pagination/PaginationBar'],
-				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
-				sortInitialOrder:[{colId:'usid',descending:false}],
-				filterServerMode:true,
-				filterSetupQuery:rel_user_segmentGrid_filterSetupQuery">
-			</div>
-		</div>
 		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>
-		<script src="_part_segment.js"></script>
+		<script src="_part_usercreation.js"></script>
 	</body>
 </html>

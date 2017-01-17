@@ -51,12 +51,6 @@
 				window.location="_part_userrole.html?"+"urusid="+grid.row(grid.select.row.getSelected()).data().usid;
 			</script>
 		</button>
-		<button id="segmentLink" data-dojo-type="dijit/form/Button" data-dojo-id="segmentLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
-			分詞
-			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-				window.location="_part_segment.html?"+"trusid="+grid.row(grid.select.row.getSelected()).data().usid;
-			</script>
-		</button>
 		<button id="articleLink" data-dojo-type="dijit/form/Button" data-dojo-id="articleLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
 			文章
 			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
@@ -69,16 +63,16 @@
 				window.location="_part_sentence.html?"+"asusid="+grid.row(grid.select.row.getSelected()).data().usid;
 			</script>
 		</button>
+		<button id="segmentLink" data-dojo-type="dijit/form/Button" data-dojo-id="segmentLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
+			分詞
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_segment.html?"+"trusid="+grid.row(grid.select.row.getSelected()).data().usid;
+			</script>
+		</button>
 		<button id="segmentflowLink" data-dojo-type="dijit/form/Button" data-dojo-id="segmentflowLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
 			分詞線程
 			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
 				window.location="_part_segmentflow.html?"+"tausid="+grid.row(grid.select.row.getSelected()).data().usid;
-			</script>
-		</button>
-		<button id="segmentvoteLink" data-dojo-type="dijit/form/Button" data-dojo-id="segmentvoteLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
-			分詞線程投票
-			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-				window.location="_part_segmentvote.html?"+"tvusid="+grid.row(grid.select.row.getSelected()).data().usid;
 			</script>
 		</button>
 		<button id="taggingLink" data-dojo-type="dijit/form/Button" data-dojo-id="taggingLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
@@ -87,16 +81,22 @@
 				window.location="_part_tagging.html?"+"tgusid="+grid.row(grid.select.row.getSelected()).data().usid;
 			</script>
 		</button>
-		<button id="wordflowLink" data-dojo-type="dijit/form/Button" data-dojo-id="wordflowLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
-			詞音線程
+		<button id="segmentvoteLink" data-dojo-type="dijit/form/Button" data-dojo-id="segmentvoteLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
+			分詞線程投票
 			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-				window.location="_part_wordflow.html?"+"wausid="+grid.row(grid.select.row.getSelected()).data().usid;
+				window.location="_part_segmentvote.html?"+"tvusid="+grid.row(grid.select.row.getSelected()).data().usid;
 			</script>
 		</button>
 		<button id="wordvoteLink" data-dojo-type="dijit/form/Button" data-dojo-id="wordvoteLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
 			詞音線程投票
 			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
 				window.location="_part_wordvote.html?"+"wvusid="+grid.row(grid.select.row.getSelected()).data().usid;
+			</script>
+		</button>
+		<button id="wordflowLink" data-dojo-type="dijit/form/Button" data-dojo-id="wordflowLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderOpen'" type="button" disabled="disabled">
+			詞音線程
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_wordflow.html?"+"wausid="+grid.row(grid.select.row.getSelected()).data().usid;
 			</script>
 		</button>
 		<div id="grid" data-dojo-type="gridx/Grid" data-dojo-id="grid" data-dojo-props="
@@ -163,6 +163,12 @@
 							</td>
 							<td><a id="add_uslsidAssist" class="assist" href="#" onclick="f_assistBegin([add_uslsid],['lsid'],rel_language_userDialog,rel_language_userGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
+						<tr>
+							<td><label for="uspn">單位能量</label></td>
+							<td>
+								<input id="add_uspn" name="uspn" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_uspn" required="required" maxlength="2"/>
+							</td>
+						</tr>
 					</table>
 				</div>
 				<div class="dijitDialogPaneActionBar">
@@ -217,6 +223,12 @@
 								<input id="update_uslsid" name="uslsid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_uslsid" required="required" maxlength="16"/>
 							</td>
 							<td><a id="update_uslsidAssist" class="assist" href="#" onclick="f_assistBegin([update_uslsid],['lsid'],rel_language_userDialog,rel_language_userGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+						</tr>
+						<tr>
+							<td><label for="uspn">單位能量</label></td>
+							<td>
+								<input id="update_uspn" name="uspn" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_uspn" required="required" maxlength="2"/>
+							</td>
 						</tr>
 					</table>
 				</div>

@@ -41,19 +41,19 @@ require([
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_authority_roleAuthorityGrid_store=new JsonRest({target:"../language/api/authority",idProperty:"auid",sortParam:"orderBy"});
-	rel_authority_roleAuthorityGrid_structure=[
+	rel_authority_roleauthorityGrid_store=new JsonRest({target:"../language/api/authority",idProperty:"auid",sortParam:"orderBy"});
+	rel_authority_roleauthorityGrid_structure=[
 		{id:"auid",field:"auid",name:"權限編碼",width:"128px"},
 		{id:"augrp",field:"augrp",name:"分組",width:"64px"},
 		{id:"auname",field:"auname",name:"權限名稱",width:"224px"}];
-	rel_authority_roleAuthorityGrid_filterSetupQuery=function(expr)
+	rel_authority_roleauthorityGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_role_roleAuthorityGrid_store=new JsonRest({target:"../language/api/role",idProperty:"rlid",sortParam:"orderBy"});
-	rel_role_roleAuthorityGrid_structure=[
+	rel_role_roleauthorityGrid_store=new JsonRest({target:"../language/api/role",idProperty:"rlid",sortParam:"orderBy"});
+	rel_role_roleauthorityGrid_structure=[
 		{id:"rlid",field:"rlid",name:"角色編碼",width:"224px"},
 		{id:"rlname",field:"rlname",name:"角色名稱",width:"224px"}];
-	rel_role_roleAuthorityGrid_filterSetupQuery=function(expr)
+	rel_role_roleauthorityGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
 	this.f_prepareAdd=function()
@@ -183,11 +183,11 @@ require([
 		grid.connect(grid.select.row,"onDeselected",function(row)
 		{	window.f_setControls(0x0011);
 		});
-		rel_authority_roleAuthorityGrid.connect(rel_authority_roleAuthorityGrid.select.row,"onSelected",function(row)
-		{	f_assistEnd(rel_authority_roleAuthorityDialog,rel_authority_roleAuthorityGrid,row);
+		rel_authority_roleauthorityGrid.connect(rel_authority_roleauthorityGrid.select.row,"onSelected",function(row)
+		{	f_assistEnd(rel_authority_roleauthorityDialog,rel_authority_roleauthorityGrid,row);
 		});
-		rel_role_roleAuthorityGrid.connect(rel_role_roleAuthorityGrid.select.row,"onSelected",function(row)
-		{	f_assistEnd(rel_role_roleAuthorityDialog,rel_role_roleAuthorityGrid,row);
+		rel_role_roleauthorityGrid.connect(rel_role_roleauthorityGrid.select.row,"onSelected",function(row)
+		{	f_assistEnd(rel_role_roleauthorityDialog,rel_role_roleauthorityGrid,row);
 		});
 		f_auth().then(function()
 		{	f_setControls(0x1111);

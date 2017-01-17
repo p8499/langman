@@ -45,6 +45,17 @@ require([
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
+	rel_user_wordvoteGrid_store=new JsonRest({target:"../language/api/user",idProperty:"usid",sortParam:"orderBy"});
+	rel_user_wordvoteGrid_structure=[
+		{id:"usid",field:"usid",name:"用戶名",width:"224px"},
+		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
+		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
+		{id:"usst",field:"usst",name:"狀態",width:"48px"},
+		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"},
+		{id:"uspn",field:"uspn",name:"單位能量",width:"48px"}];
+	rel_user_wordvoteGrid_filterSetupQuery=function(expr)
+	{	return {"filter":expr==null?null:json.stringify(expr)};
+	};
 	rel_wordflow_wordvoteGrid_store=new JsonRest({target:"../language/api/wordflow",idProperty:"waid",sortParam:"orderBy"});
 	rel_wordflow_wordvoteGrid_structure=[
 		{id:"waid",field:"waid",name:"線程編碼",width:"64px"},
@@ -58,16 +69,6 @@ require([
 		{id:"waupdd",field:"waupdd",name:"更新日腳",width:"80px"},
 		{id:"waupdt",field:"waupdt",name:"更新辰光",width:"64px"}];
 	rel_wordflow_wordvoteGrid_filterSetupQuery=function(expr)
-	{	return {"filter":expr==null?null:json.stringify(expr)};
-	};
-	rel_user_wordvoteGrid_store=new JsonRest({target:"../language/api/user",idProperty:"usid",sortParam:"orderBy"});
-	rel_user_wordvoteGrid_structure=[
-		{id:"usid",field:"usid",name:"用戶名",width:"224px"},
-		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
-		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
-		{id:"usst",field:"usst",name:"狀態",width:"48px"},
-		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"}];
-	rel_user_wordvoteGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
 	this.f_prepareAdd=function()
@@ -227,11 +228,11 @@ require([
 		grid.connect(grid.select.row,"onDeselected",function(row)
 		{	window.f_setControls(0x0011);
 		});
-		rel_wordflow_wordvoteGrid.connect(rel_wordflow_wordvoteGrid.select.row,"onSelected",function(row)
-		{	f_assistEnd(rel_wordflow_wordvoteDialog,rel_wordflow_wordvoteGrid,row);
-		});
 		rel_user_wordvoteGrid.connect(rel_user_wordvoteGrid.select.row,"onSelected",function(row)
 		{	f_assistEnd(rel_user_wordvoteDialog,rel_user_wordvoteGrid,row);
+		});
+		rel_wordflow_wordvoteGrid.connect(rel_wordflow_wordvoteGrid.select.row,"onSelected",function(row)
+		{	f_assistEnd(rel_wordflow_wordvoteDialog,rel_wordflow_wordvoteGrid,row);
 		});
 		f_auth().then(function()
 		{	f_setControls(0x1111);
@@ -303,14 +304,14 @@ require([
 				updateButton.setAttribute('disabled',false);
 			else
 				updateButton.setAttribute('disabled',true);
-			if((rawordflow||riwordflow)&&select==1)
-				wordflowLink.setAttribute('disabled',false);
-			else
-				wordflowLink.setAttribute('disabled',true);
 			if((rauser||riuser)&&select==1)
 				userLink.setAttribute('disabled',false);
 			else
 				userLink.setAttribute('disabled',true);
+			if((rawordflow||riwordflow)&&select==1)
+				wordflowLink.setAttribute('disabled',false);
+			else
+				wordflowLink.setAttribute('disabled',true);
 		}
 		if(code&0x0100==0x0100)
 			if((wa||wi)&&select>0)
@@ -326,21 +327,21 @@ require([
 	this.f_auth=function()
 	{	this.ra=this.wa=false;
 		this.ri=this.wi=false;
-		this.rawordflow=this.riwordflow=false;
 		this.rauser=this.riuser=false;
+		this.rawordflow=this.riwordflow=false;
 		var dra=new Deferred(),dwa=new Deferred(),d=new Deferred(),d0=new Deferred();
 		var dri=new Deferred(),dwi=new Deferred();
-		var drawordflow=new Deferred(),driwordflow=new Deferred();
 		var drauser=new Deferred(),driuser=new Deferred();
+		var drawordflow=new Deferred(),driwordflow=new Deferred();
 		var fra=function(){xhr("../language/api/base/security",{query:{auth:"wdvt_ra"},handleAs:"json"}).then(function(){this.ra=true;dra.resolve();},function(){dra.resolve();});return dra.promise;};
 		var fwa=function(){xhr("../language/api/base/security",{query:{auth:"wdvt_wa"},handleAs:"json"}).then(function(){this.wa=true;dwa.resolve();},function(){dwa.resolve();});return dwa.promise;};
 		var fri=function(){xhr("../language/api/base/security",{query:{auth:"wdvt_ri"},handleAs:"json"}).then(function(){this.ri=true;dri.resolve();},function(){dri.resolve();});return dri.promise;};
 		var fwi=function(){xhr("../language/api/base/security",{query:{auth:"wdvt_wi"},handleAs:"json"}).then(function(){this.wi=true;dwi.resolve();},function(){dwi.resolve();});return dwi.promise;};
-		var frawordflow=function(){xhr("../language/api/base/security",{query:{auth:"wdfl_ra"},handleAs:"json"}).then(function(){this.rawordflow=true;drawordflow.resolve();},function(){drawordflow.resolve();});return drawordflow.promise;};
-		var friwordflow=function(){xhr("../language/api/base/security",{query:{auth:"wdfl_ri"},handleAs:"json"}).then(function(){this.riwordflow=true;driwordflow.resolve();},function(){driwordflow.resolve();});return driwordflow.promise;};
 		var frauser=function(){xhr("../language/api/base/security",{query:{auth:"user_ra"},handleAs:"json"}).then(function(){this.rauser=true;drauser.resolve();},function(){drauser.resolve();});return drauser.promise;};
 		var friuser=function(){xhr("../language/api/base/security",{query:{auth:"user_ri"},handleAs:"json"}).then(function(){this.riuser=true;driuser.resolve();},function(){driuser.resolve();});return driuser.promise;};
-		d0.promise.then(frawordflow).then(function(){if(!rawordflow)return friwordflow();}).then(frauser).then(function(){if(!rauser)return friuser();}).then(fra).then(function(){if(!ra)return fri();}).then(fwa).then(function(){if(!wa)return fwi();}).then(function(){d.resolve();});
+		var frawordflow=function(){xhr("../language/api/base/security",{query:{auth:"wdfl_ra"},handleAs:"json"}).then(function(){this.rawordflow=true;drawordflow.resolve();},function(){drawordflow.resolve();});return drawordflow.promise;};
+		var friwordflow=function(){xhr("../language/api/base/security",{query:{auth:"wdfl_ri"},handleAs:"json"}).then(function(){this.riwordflow=true;driwordflow.resolve();},function(){driwordflow.resolve();});return driwordflow.promise;};
+		d0.promise.then(frauser).then(function(){if(!rauser)return friuser();}).then(frawordflow).then(function(){if(!rawordflow)return friwordflow();}).then(fra).then(function(){if(!ra)return fri();}).then(fwa).then(function(){if(!wa)return fwi();}).then(function(){d.resolve();});
 		d0.resolve();
 		return d;
 	}

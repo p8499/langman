@@ -58,7 +58,8 @@ require([
 		{id:"asst",field:"asst",name:"狀態",width:"48px"},
 		{id:"asusid",field:"asusid",name:"擁有者",width:"224px"},
 		{id:"asupdd",field:"asupdd",name:"更新日腳",width:"80px"},
-		{id:"asupdt",field:"asupdt",name:"更新辰光",width:"64px"}];
+		{id:"asupdt",field:"asupdt",name:"更新辰光",width:"64px"},
+		{id:"ascs",field:"ascs",name:":類",width:"48px"}];
 	rel_sentence_segmentflowGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
@@ -68,7 +69,8 @@ require([
 		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
 		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
 		{id:"usst",field:"usst",name:"狀態",width:"48px"},
-		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"}];
+		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"},
+		{id:"uspn",field:"uspn",name:"單位能量",width:"48px"}];
 	rel_user_segmentflowGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};

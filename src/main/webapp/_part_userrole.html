@@ -85,14 +85,14 @@
 							<td>
 								<input id="add_urusid" name="urusid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_urusid" required="required" maxlength="32"/>
 							</td>
-							<td><a id="add_urusidAssist" class="assist" href="#" onclick="f_assistBegin([add_urusid],['usid'],rel_user_userRoleDialog,rel_user_userRoleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="add_urusidAssist" class="assist" href="#" onclick="f_assistBegin([add_urusid],['usid'],rel_user_userroleDialog,rel_user_userroleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 						<tr>
 							<td><label for="urrlid">角色編碼</label></td>
 							<td>
 								<input id="add_urrlid" name="urrlid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_urrlid" required="required" maxlength="32"/>
 							</td>
-							<td><a id="add_urrlidAssist" class="assist" href="#" onclick="f_assistBegin([add_urrlid],['rlid'],rel_role_userRoleDialog,rel_role_userRoleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="add_urrlidAssist" class="assist" href="#" onclick="f_assistBegin([add_urrlid],['rlid'],rel_role_userroleDialog,rel_role_userroleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 					</table>
 				</div>
@@ -125,14 +125,14 @@
 							<td>
 								<input id="update_urusid" name="urusid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_urusid" required="required" maxlength="32"/>
 							</td>
-							<td><a id="update_urusidAssist" class="assist" href="#" onclick="f_assistBegin([update_urusid],['usid'],rel_user_userRoleDialog,rel_user_userRoleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="update_urusidAssist" class="assist" href="#" onclick="f_assistBegin([update_urusid],['usid'],rel_user_userroleDialog,rel_user_userroleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 						<tr>
 							<td><label for="urrlid">角色編碼</label></td>
 							<td>
 								<input id="update_urrlid" name="urrlid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_urrlid" required="required" maxlength="32"/>
 							</td>
-							<td><a id="update_urrlidAssist" class="assist" href="#" onclick="f_assistBegin([update_urrlid],['rlid'],rel_role_userRoleDialog,rel_role_userRoleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="update_urrlidAssist" class="assist" href="#" onclick="f_assistBegin([update_urrlid],['rlid'],rel_role_userroleDialog,rel_role_userroleGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 					</table>
 				</div>
@@ -197,11 +197,11 @@
 				</button>
 			</div>
 		</div>
-		<div id="rel_role_userRoleDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_role_userRoleDialog" data-dojo-props="closable:true">
-			<div id="rel_role_userRoleGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_role_userRoleGrid" data-dojo-props="
+		<div id="rel_role_userroleDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_role_userroleDialog" data-dojo-props="closable:true">
+			<div id="rel_role_userroleGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_role_userroleGrid" data-dojo-props="
 				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_role_userRoleGrid_structure,
-				store:rel_role_userRoleGrid_store,
+				structure:rel_role_userroleGrid_structure,
+				store:rel_role_userroleGrid_store,
 				autoHeight:true,
 				paginationBarSizes:[10],
 				modules:[
@@ -220,14 +220,14 @@
 				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
 				sortInitialOrder:[{colId:'rlid',descending:false}],
 				filterServerMode:true,
-				filterSetupQuery:rel_role_userRoleGrid_filterSetupQuery">
+				filterSetupQuery:rel_role_userroleGrid_filterSetupQuery">
 			</div>
 		</div>
-		<div id="rel_user_userRoleDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_user_userRoleDialog" data-dojo-props="closable:true">
-			<div id="rel_user_userRoleGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_user_userRoleGrid" data-dojo-props="
+		<div id="rel_user_userroleDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_user_userroleDialog" data-dojo-props="closable:true">
+			<div id="rel_user_userroleGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_user_userroleGrid" data-dojo-props="
 				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_user_userRoleGrid_structure,
-				store:rel_user_userRoleGrid_store,
+				structure:rel_user_userroleGrid_structure,
+				store:rel_user_userroleGrid_store,
 				autoHeight:true,
 				paginationBarSizes:[10],
 				modules:[
@@ -246,7 +246,7 @@
 				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
 				sortInitialOrder:[{colId:'usid',descending:false}],
 				filterServerMode:true,
-				filterSetupQuery:rel_user_userRoleGrid_filterSetupQuery">
+				filterSetupQuery:rel_user_userroleGrid_filterSetupQuery">
 			</div>
 		</div>
 		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>

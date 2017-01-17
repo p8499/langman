@@ -33,7 +33,7 @@ require([
 	msgAreaUpdate_messages=new MultiKeyMap();
 	msgAreaDelete_messages=new MultiKeyMap();
 	msgAreaPrepare_messages=new MultiKeyMap();
-	grid_store=new JsonRest({target:"../language/api/language_mask",idProperty:"lsid",sortParam:"orderBy"});
+	grid_store=new JsonRest({target:"../language/api/language",idProperty:"lsid",sortParam:"orderBy"});
 	grid_structure=[
 		{id:"lsid",field:"lsid",name:"語言編碼",width:"128px"},
 		{id:"lsname",field:"lsname",name:"語言名稱",width:"128px"},
@@ -242,6 +242,10 @@ require([
 				userLink.setAttribute('disabled',false);
 			else
 				userLink.setAttribute('disabled',true);
+			if((rachunk||richunk)&&select==1)
+				chunkLink.setAttribute('disabled',false);
+			else
+				chunkLink.setAttribute('disabled',true);
 			if((ralanguageparameter||rilanguageparameter)&&select==1)
 				languageparameterLink.setAttribute('disabled',false);
 			else
@@ -250,18 +254,14 @@ require([
 				categoryLink.setAttribute('disabled',false);
 			else
 				categoryLink.setAttribute('disabled',true);
-			if((rachunk||richunk)&&select==1)
-				chunkLink.setAttribute('disabled',false);
-			else
-				chunkLink.setAttribute('disabled',true);
-			if((raword||riword)&&select==1)
-				wordLink.setAttribute('disabled',false);
-			else
-				wordLink.setAttribute('disabled',true);
 			if((rapronounce||ripronounce)&&select==1)
 				pronounceLink.setAttribute('disabled',false);
 			else
 				pronounceLink.setAttribute('disabled',true);
+			if((raword||riword)&&select==1)
+				wordLink.setAttribute('disabled',false);
+			else
+				wordLink.setAttribute('disabled',true);
 		}
 		if(code&0x0100==0x0100)
 			if(wa&&select>0)
@@ -277,33 +277,33 @@ require([
 	this.f_auth=function()
 	{	this.ra=this.wa=false;
 		this.rauser=this.riuser=false;
+		this.rachunk=this.richunk=false;
 		this.ralanguageparameter=this.rilanguageparameter=false;
 		this.racategory=this.ricategory=false;
-		this.rachunk=this.richunk=false;
-		this.raword=this.riword=false;
 		this.rapronounce=this.ripronounce=false;
+		this.raword=this.riword=false;
 		var dra=new Deferred(),dwa=new Deferred(),d=new Deferred(),d0=new Deferred();
 		var drauser=new Deferred(),driuser=new Deferred();
+		var drachunk=new Deferred(),drichunk=new Deferred();
 		var dralanguageparameter=new Deferred(),drilanguageparameter=new Deferred();
 		var dracategory=new Deferred(),dricategory=new Deferred();
-		var drachunk=new Deferred(),drichunk=new Deferred();
-		var draword=new Deferred(),driword=new Deferred();
 		var drapronounce=new Deferred(),dripronounce=new Deferred();
+		var draword=new Deferred(),driword=new Deferred();
 		var fra=function(){xhr("../language/api/base/security",{query:{auth:"lang_ra"},handleAs:"json"}).then(function(){this.ra=true;dra.resolve();},function(){dra.resolve();});return dra.promise;};
 		var fwa=function(){xhr("../language/api/base/security",{query:{auth:"lang_wa"},handleAs:"json"}).then(function(){this.wa=true;dwa.resolve();},function(){dwa.resolve();});return dwa.promise;};
 		var frauser=function(){xhr("../language/api/base/security",{query:{auth:"user_ra"},handleAs:"json"}).then(function(){this.rauser=true;drauser.resolve();},function(){drauser.resolve();});return drauser.promise;};
 		var friuser=function(){xhr("../language/api/base/security",{query:{auth:"user_ri"},handleAs:"json"}).then(function(){this.riuser=true;driuser.resolve();},function(){driuser.resolve();});return driuser.promise;};
+		var frachunk=function(){xhr("../language/api/base/security",{query:{auth:"chnk_ra"},handleAs:"json"}).then(function(){this.rachunk=true;drachunk.resolve();},function(){drachunk.resolve();});return drachunk.promise;};
+		var frichunk=function(){xhr("../language/api/base/security",{query:{auth:"chnk_ri"},handleAs:"json"}).then(function(){this.richunk=true;drichunk.resolve();},function(){drichunk.resolve();});return drichunk.promise;};
 		var fralanguageparameter=function(){xhr("../language/api/base/security",{query:{auth:"lang_ra"},handleAs:"json"}).then(function(){this.ralanguageparameter=true;dralanguageparameter.resolve();},function(){dralanguageparameter.resolve();});return dralanguageparameter.promise;};
 		var frilanguageparameter=function(){xhr("../language/api/base/security",{query:{auth:"lang_ri"},handleAs:"json"}).then(function(){this.rilanguageparameter=true;drilanguageparameter.resolve();},function(){drilanguageparameter.resolve();});return drilanguageparameter.promise;};
 		var fracategory=function(){xhr("../language/api/base/security",{query:{auth:"cate_ra"},handleAs:"json"}).then(function(){this.racategory=true;dracategory.resolve();},function(){dracategory.resolve();});return dracategory.promise;};
 		var fricategory=function(){xhr("../language/api/base/security",{query:{auth:"cate_ri"},handleAs:"json"}).then(function(){this.ricategory=true;dricategory.resolve();},function(){dricategory.resolve();});return dricategory.promise;};
-		var frachunk=function(){xhr("../language/api/base/security",{query:{auth:"chnk_ra"},handleAs:"json"}).then(function(){this.rachunk=true;drachunk.resolve();},function(){drachunk.resolve();});return drachunk.promise;};
-		var frichunk=function(){xhr("../language/api/base/security",{query:{auth:"chnk_ri"},handleAs:"json"}).then(function(){this.richunk=true;drichunk.resolve();},function(){drichunk.resolve();});return drichunk.promise;};
-		var fraword=function(){xhr("../language/api/base/security",{query:{auth:"word_ra"},handleAs:"json"}).then(function(){this.raword=true;draword.resolve();},function(){draword.resolve();});return draword.promise;};
-		var friword=function(){xhr("../language/api/base/security",{query:{auth:"word_ri"},handleAs:"json"}).then(function(){this.riword=true;driword.resolve();},function(){driword.resolve();});return driword.promise;};
 		var frapronounce=function(){xhr("../language/api/base/security",{query:{auth:"pron_ra"},handleAs:"json"}).then(function(){this.rapronounce=true;drapronounce.resolve();},function(){drapronounce.resolve();});return drapronounce.promise;};
 		var fripronounce=function(){xhr("../language/api/base/security",{query:{auth:"pron_ri"},handleAs:"json"}).then(function(){this.ripronounce=true;dripronounce.resolve();},function(){dripronounce.resolve();});return dripronounce.promise;};
-		d0.promise.then(frauser).then(function(){if(!rauser)return friuser();}).then(fralanguageparameter).then(function(){if(!ralanguageparameter)return frilanguageparameter();}).then(fracategory).then(function(){if(!racategory)return fricategory();}).then(frachunk).then(function(){if(!rachunk)return frichunk();}).then(fraword).then(function(){if(!raword)return friword();}).then(frapronounce).then(function(){if(!rapronounce)return fripronounce();}).then(fra).then(fwa).then(function(){d.resolve();});
+		var fraword=function(){xhr("../language/api/base/security",{query:{auth:"word_ra"},handleAs:"json"}).then(function(){this.raword=true;draword.resolve();},function(){draword.resolve();});return draword.promise;};
+		var friword=function(){xhr("../language/api/base/security",{query:{auth:"word_ri"},handleAs:"json"}).then(function(){this.riword=true;driword.resolve();},function(){driword.resolve();});return driword.promise;};
+		d0.promise.then(frauser).then(function(){if(!rauser)return friuser();}).then(frachunk).then(function(){if(!rachunk)return frichunk();}).then(fralanguageparameter).then(function(){if(!ralanguageparameter)return frilanguageparameter();}).then(fracategory).then(function(){if(!racategory)return fricategory();}).then(frapronounce).then(function(){if(!rapronounce)return fripronounce();}).then(fraword).then(function(){if(!raword)return friword();}).then(fra).then(fwa).then(function(){d.resolve();});
 		d0.resolve();
 		return d;
 	}

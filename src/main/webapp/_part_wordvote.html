@@ -39,16 +39,16 @@
 				f_checkDelete(grid.select.row.getSelected());
 			</script>
 		</button>
-		<button id="wordflowLink" data-dojo-type="dijit/form/Button" data-dojo-id="wordflowLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
-			詞音線程
-			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-				window.location="_part_wordflow.html?"+"waid="+grid.row(grid.select.row.getSelected()).data().wvwaid;
-			</script>
-		</button>
 		<button id="userLink" data-dojo-type="dijit/form/Button" data-dojo-id="userLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
 			用戶
 			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
 				window.location="_part_user.html?"+"usid="+grid.row(grid.select.row.getSelected()).data().wvusid;
+			</script>
+		</button>
+		<button id="wordflowLink" data-dojo-type="dijit/form/Button" data-dojo-id="wordflowLink" data-dojo-props="iconClass:'dijitIcon dijitIconFolderClosed'" type="button" disabled="disabled">
+			詞音線程
+			<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+				window.location="_part_wordflow.html?"+"waid="+grid.row(grid.select.row.getSelected()).data().wvwaid;
 			</script>
 		</button>
 		<div id="grid" data-dojo-type="gridx/Grid" data-dojo-id="grid" data-dojo-props="
@@ -245,32 +245,6 @@
 				</button>
 			</div>
 		</div>
-		<div id="rel_wordflow_wordvoteDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_wordflow_wordvoteDialog" data-dojo-props="closable:true">
-			<div id="rel_wordflow_wordvoteGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_wordflow_wordvoteGrid" data-dojo-props="
-				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_wordflow_wordvoteGrid_structure,
-				store:rel_wordflow_wordvoteGrid_store,
-				autoHeight:true,
-				paginationBarSizes:[10],
-				modules:[
-					'gridx/modules/HScroller',
-					'gridx/modules/VScroller',
-					'gridx/modules/ColumnResizer',
-					'gridx/modules/RowHeader',
-					'gridx/modules/select/Row',
-					'gridx/modules/IndirectSelect',
-					'gridx/modules/Filter',
-					{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
-					'gridx/modules/filter/QuickFilter',
-					'gridx/modules/NestedSort',
-					'gridx/modules/Pagination',
-					'gridx/modules/pagination/PaginationBar'],
-				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
-				sortInitialOrder:[{colId:'wawoid',descending:false},{colId:'wasi',descending:false}],
-				filterServerMode:true,
-				filterSetupQuery:rel_wordflow_wordvoteGrid_filterSetupQuery">
-			</div>
-		</div>
 		<div id="rel_user_wordvoteDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_user_wordvoteDialog" data-dojo-props="closable:true">
 			<div id="rel_user_wordvoteGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_user_wordvoteGrid" data-dojo-props="
 				cacheClass:'gridx/core/model/cache/Async',
@@ -295,6 +269,32 @@
 				sortInitialOrder:[{colId:'usid',descending:false}],
 				filterServerMode:true,
 				filterSetupQuery:rel_user_wordvoteGrid_filterSetupQuery">
+			</div>
+		</div>
+		<div id="rel_wordflow_wordvoteDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_wordflow_wordvoteDialog" data-dojo-props="closable:true">
+			<div id="rel_wordflow_wordvoteGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_wordflow_wordvoteGrid" data-dojo-props="
+				cacheClass:'gridx/core/model/cache/Async',
+				structure:rel_wordflow_wordvoteGrid_structure,
+				store:rel_wordflow_wordvoteGrid_store,
+				autoHeight:true,
+				paginationBarSizes:[10],
+				modules:[
+					'gridx/modules/HScroller',
+					'gridx/modules/VScroller',
+					'gridx/modules/ColumnResizer',
+					'gridx/modules/RowHeader',
+					'gridx/modules/select/Row',
+					'gridx/modules/IndirectSelect',
+					'gridx/modules/Filter',
+					{moduleClass:'gridx/modules/filter/FilterBar',closeButton:false},
+					'gridx/modules/filter/QuickFilter',
+					'gridx/modules/NestedSort',
+					'gridx/modules/Pagination',
+					'gridx/modules/pagination/PaginationBar'],
+				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
+				sortInitialOrder:[{colId:'wawoid',descending:false},{colId:'wasi',descending:false}],
+				filterServerMode:true,
+				filterSetupQuery:rel_wordflow_wordvoteGrid_filterSetupQuery">
 			</div>
 		</div>
 		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>

@@ -44,6 +44,17 @@ require([
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
+	rel_user_taggingGrid_store=new JsonRest({target:"../language/api/user",idProperty:"usid",sortParam:"orderBy"});
+	rel_user_taggingGrid_structure=[
+		{id:"usid",field:"usid",name:"用戶名",width:"224px"},
+		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
+		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
+		{id:"usst",field:"usst",name:"狀態",width:"48px"},
+		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"},
+		{id:"uspn",field:"uspn",name:"單位能量",width:"48px"}];
+	rel_user_taggingGrid_filterSetupQuery=function(expr)
+	{	return {"filter":expr==null?null:json.stringify(expr)};
+	};
 	rel_sentence_taggingGrid_store=new JsonRest({target:"../language/api/sentence",idProperty:"asid",sortParam:"orderBy"});
 	rel_sentence_taggingGrid_structure=[
 		{id:"asid",field:"asid",name:"文句編碼",width:"64px"},
@@ -53,18 +64,9 @@ require([
 		{id:"asst",field:"asst",name:"狀態",width:"48px"},
 		{id:"asusid",field:"asusid",name:"擁有者",width:"224px"},
 		{id:"asupdd",field:"asupdd",name:"更新日腳",width:"80px"},
-		{id:"asupdt",field:"asupdt",name:"更新辰光",width:"64px"}];
+		{id:"asupdt",field:"asupdt",name:"更新辰光",width:"64px"},
+		{id:"ascs",field:"ascs",name:":類",width:"48px"}];
 	rel_sentence_taggingGrid_filterSetupQuery=function(expr)
-	{	return {"filter":expr==null?null:json.stringify(expr)};
-	};
-	rel_user_taggingGrid_store=new JsonRest({target:"../language/api/user",idProperty:"usid",sortParam:"orderBy"});
-	rel_user_taggingGrid_structure=[
-		{id:"usid",field:"usid",name:"用戶名",width:"224px"},
-		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
-		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
-		{id:"usst",field:"usst",name:"狀態",width:"48px"},
-		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"}];
-	rel_user_taggingGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
 	this.f_prepareAdd=function()
@@ -223,11 +225,11 @@ require([
 		grid.connect(grid.select.row,"onDeselected",function(row)
 		{	window.f_setControls(0x0011);
 		});
-		rel_sentence_taggingGrid.connect(rel_sentence_taggingGrid.select.row,"onSelected",function(row)
-		{	f_assistEnd(rel_sentence_taggingDialog,rel_sentence_taggingGrid,row);
-		});
 		rel_user_taggingGrid.connect(rel_user_taggingGrid.select.row,"onSelected",function(row)
 		{	f_assistEnd(rel_user_taggingDialog,rel_user_taggingGrid,row);
+		});
+		rel_sentence_taggingGrid.connect(rel_sentence_taggingGrid.select.row,"onSelected",function(row)
+		{	f_assistEnd(rel_sentence_taggingDialog,rel_sentence_taggingGrid,row);
 		});
 		f_auth().then(function()
 		{	f_setControls(0x1111);
@@ -299,14 +301,14 @@ require([
 				updateButton.setAttribute('disabled',false);
 			else
 				updateButton.setAttribute('disabled',true);
-			if((rasentence||risentence)&&select==1)
-				sentenceLink.setAttribute('disabled',false);
-			else
-				sentenceLink.setAttribute('disabled',true);
 			if((rauser||riuser)&&select==1)
 				userLink.setAttribute('disabled',false);
 			else
 				userLink.setAttribute('disabled',true);
+			if((rasentence||risentence)&&select==1)
+				sentenceLink.setAttribute('disabled',false);
+			else
+				sentenceLink.setAttribute('disabled',true);
 		}
 		if(code&0x0100==0x0100)
 			if((wa||wi)&&select>0)
@@ -322,21 +324,21 @@ require([
 	this.f_auth=function()
 	{	this.ra=this.wa=false;
 		this.ri=this.wi=false;
-		this.rasentence=this.risentence=false;
 		this.rauser=this.riuser=false;
+		this.rasentence=this.risentence=false;
 		var dra=new Deferred(),dwa=new Deferred(),d=new Deferred(),d0=new Deferred();
 		var dri=new Deferred(),dwi=new Deferred();
-		var drasentence=new Deferred(),drisentence=new Deferred();
 		var drauser=new Deferred(),driuser=new Deferred();
+		var drasentence=new Deferred(),drisentence=new Deferred();
 		var fra=function(){xhr("../language/api/base/security",{query:{auth:"post_ra"},handleAs:"json"}).then(function(){this.ra=true;dra.resolve();},function(){dra.resolve();});return dra.promise;};
 		var fwa=function(){xhr("../language/api/base/security",{query:{auth:"post_wa"},handleAs:"json"}).then(function(){this.wa=true;dwa.resolve();},function(){dwa.resolve();});return dwa.promise;};
 		var fri=function(){xhr("../language/api/base/security",{query:{auth:"post_ri"},handleAs:"json"}).then(function(){this.ri=true;dri.resolve();},function(){dri.resolve();});return dri.promise;};
 		var fwi=function(){xhr("../language/api/base/security",{query:{auth:"post_wi"},handleAs:"json"}).then(function(){this.wi=true;dwi.resolve();},function(){dwi.resolve();});return dwi.promise;};
-		var frasentence=function(){xhr("../language/api/base/security",{query:{auth:"sent_ra"},handleAs:"json"}).then(function(){this.rasentence=true;drasentence.resolve();},function(){drasentence.resolve();});return drasentence.promise;};
-		var frisentence=function(){xhr("../language/api/base/security",{query:{auth:"sent_ri"},handleAs:"json"}).then(function(){this.risentence=true;drisentence.resolve();},function(){drisentence.resolve();});return drisentence.promise;};
 		var frauser=function(){xhr("../language/api/base/security",{query:{auth:"user_ra"},handleAs:"json"}).then(function(){this.rauser=true;drauser.resolve();},function(){drauser.resolve();});return drauser.promise;};
 		var friuser=function(){xhr("../language/api/base/security",{query:{auth:"user_ri"},handleAs:"json"}).then(function(){this.riuser=true;driuser.resolve();},function(){driuser.resolve();});return driuser.promise;};
-		d0.promise.then(frasentence).then(function(){if(!rasentence)return frisentence();}).then(frauser).then(function(){if(!rauser)return friuser();}).then(fra).then(function(){if(!ra)return fri();}).then(fwa).then(function(){if(!wa)return fwi();}).then(function(){d.resolve();});
+		var frasentence=function(){xhr("../language/api/base/security",{query:{auth:"sent_ra"},handleAs:"json"}).then(function(){this.rasentence=true;drasentence.resolve();},function(){drasentence.resolve();});return drasentence.promise;};
+		var frisentence=function(){xhr("../language/api/base/security",{query:{auth:"sent_ri"},handleAs:"json"}).then(function(){this.risentence=true;drisentence.resolve();},function(){drisentence.resolve();});return drisentence.promise;};
+		d0.promise.then(frauser).then(function(){if(!rauser)return friuser();}).then(frasentence).then(function(){if(!rasentence)return frisentence();}).then(fra).then(function(){if(!ra)return fri();}).then(fwa).then(function(){if(!wa)return fwi();}).then(function(){d.resolve();});
 		d0.resolve();
 		return d;
 	}

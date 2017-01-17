@@ -55,6 +55,7 @@ require([
 		{id:"woct",field:"woct",name:"字",width:"64px"},
 		{id:"wopt",field:"wopt",name:"拼音聲調",width:"416px"},
 		{id:"wocl",field:"wocl",name:"類別",width:"48px"},
+		{id:"wosort",field:"wosort",name:"排序號",width:"48px"},
 		{id:"wost",field:"wost",name:"狀態",width:"48px"}];
 	rel_word_wordflowGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
@@ -65,7 +66,8 @@ require([
 		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
 		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
 		{id:"usst",field:"usst",name:"狀態",width:"48px"},
-		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"}];
+		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"},
+		{id:"uspn",field:"uspn",name:"單位能量",width:"48px"}];
 	rel_user_wordflowGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};

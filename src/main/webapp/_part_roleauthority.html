@@ -85,14 +85,14 @@
 							<td>
 								<input id="add_rarlid" name="rarlid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_rarlid" required="required" maxlength="32"/>
 							</td>
-							<td><a id="add_rarlidAssist" class="assist" href="#" onclick="f_assistBegin([add_rarlid],['rlid'],rel_role_roleAuthorityDialog,rel_role_roleAuthorityGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="add_rarlidAssist" class="assist" href="#" onclick="f_assistBegin([add_rarlid],['rlid'],rel_role_roleauthorityDialog,rel_role_roleauthorityGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 						<tr>
 							<td><label for="raauid">權限編碼</label></td>
 							<td>
 								<input id="add_raauid" name="raauid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_raauid" required="required" maxlength="16"/>
 							</td>
-							<td><a id="add_raauidAssist" class="assist" href="#" onclick="f_assistBegin([add_raauid],['auid'],rel_authority_roleAuthorityDialog,rel_authority_roleAuthorityGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="add_raauidAssist" class="assist" href="#" onclick="f_assistBegin([add_raauid],['auid'],rel_authority_roleauthorityDialog,rel_authority_roleauthorityGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 					</table>
 				</div>
@@ -125,14 +125,14 @@
 							<td>
 								<input id="update_rarlid" name="rarlid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_rarlid" required="required" maxlength="32"/>
 							</td>
-							<td><a id="update_rarlidAssist" class="assist" href="#" onclick="f_assistBegin([update_rarlid],['rlid'],rel_role_roleAuthorityDialog,rel_role_roleAuthorityGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="update_rarlidAssist" class="assist" href="#" onclick="f_assistBegin([update_rarlid],['rlid'],rel_role_roleauthorityDialog,rel_role_roleauthorityGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 						<tr>
 							<td><label for="raauid">權限編碼</label></td>
 							<td>
 								<input id="update_raauid" name="raauid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="update_raauid" required="required" maxlength="16"/>
 							</td>
-							<td><a id="update_raauidAssist" class="assist" href="#" onclick="f_assistBegin([update_raauid],['auid'],rel_authority_roleAuthorityDialog,rel_authority_roleAuthorityGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="update_raauidAssist" class="assist" href="#" onclick="f_assistBegin([update_raauid],['auid'],rel_authority_roleauthorityDialog,rel_authority_roleauthorityGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 					</table>
 				</div>
@@ -197,11 +197,11 @@
 				</button>
 			</div>
 		</div>
-		<div id="rel_authority_roleAuthorityDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_authority_roleAuthorityDialog" data-dojo-props="closable:true">
-			<div id="rel_authority_roleAuthorityGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_authority_roleAuthorityGrid" data-dojo-props="
+		<div id="rel_authority_roleauthorityDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_authority_roleauthorityDialog" data-dojo-props="closable:true">
+			<div id="rel_authority_roleauthorityGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_authority_roleauthorityGrid" data-dojo-props="
 				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_authority_roleAuthorityGrid_structure,
-				store:rel_authority_roleAuthorityGrid_store,
+				structure:rel_authority_roleauthorityGrid_structure,
+				store:rel_authority_roleauthorityGrid_store,
 				autoHeight:true,
 				paginationBarSizes:[10],
 				modules:[
@@ -220,14 +220,14 @@
 				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
 				sortInitialOrder:[{colId:'augrp',descending:false},{colId:'auid',descending:false}],
 				filterServerMode:true,
-				filterSetupQuery:rel_authority_roleAuthorityGrid_filterSetupQuery">
+				filterSetupQuery:rel_authority_roleauthorityGrid_filterSetupQuery">
 			</div>
 		</div>
-		<div id="rel_role_roleAuthorityDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_role_roleAuthorityDialog" data-dojo-props="closable:true">
-			<div id="rel_role_roleAuthorityGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_role_roleAuthorityGrid" data-dojo-props="
+		<div id="rel_role_roleauthorityDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_role_roleauthorityDialog" data-dojo-props="closable:true">
+			<div id="rel_role_roleauthorityGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_role_roleauthorityGrid" data-dojo-props="
 				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_role_roleAuthorityGrid_structure,
-				store:rel_role_roleAuthorityGrid_store,
+				structure:rel_role_roleauthorityGrid_structure,
+				store:rel_role_roleauthorityGrid_store,
 				autoHeight:true,
 				paginationBarSizes:[10],
 				modules:[
@@ -246,7 +246,7 @@
 				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
 				sortInitialOrder:[{colId:'rlid',descending:false}],
 				filterServerMode:true,
-				filterSetupQuery:rel_role_roleAuthorityGrid_filterSetupQuery">
+				filterSetupQuery:rel_role_roleauthorityGrid_filterSetupQuery">
 			</div>
 		</div>
 		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>

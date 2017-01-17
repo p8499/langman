@@ -52,13 +52,13 @@ require([
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_language_languageParameterGrid_store=new JsonRest({target:"../language/api/language_mask",idProperty:"lsid",sortParam:"orderBy"});
-	rel_language_languageParameterGrid_structure=[
+	rel_language_languageparameterGrid_store=new JsonRest({target:"../language/api/language",idProperty:"lsid",sortParam:"orderBy"});
+	rel_language_languageparameterGrid_structure=[
 		{id:"lsid",field:"lsid",name:"語言編碼",width:"128px"},
 		{id:"lsname",field:"lsname",name:"語言名稱",width:"128px"},
 		{id:"lsloc",field:"lsloc",name:"學術名",width:"672px"},
 		{id:"lssort",field:"lssort",name:"排序號",width:"64px"}];
-	rel_language_languageParameterGrid_filterSetupQuery=function(expr)
+	rel_language_languageparameterGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
 	this.f_prepareAdd=function()
@@ -211,8 +211,8 @@ require([
 		grid.connect(grid.select.row,"onDeselected",function(row)
 		{	window.f_setControls(0x0011);
 		});
-		rel_language_languageParameterGrid.connect(rel_language_languageParameterGrid.select.row,"onSelected",function(row)
-		{	f_assistEnd(rel_language_languageParameterDialog,rel_language_languageParameterGrid,row);
+		rel_language_languageparameterGrid.connect(rel_language_languageparameterGrid.select.row,"onSelected",function(row)
+		{	f_assistEnd(rel_language_languageparameterDialog,rel_language_languageparameterGrid,row);
 		});
 		f_auth().then(function()
 		{	f_setControls(0x1111);

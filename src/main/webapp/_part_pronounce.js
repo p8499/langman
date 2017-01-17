@@ -47,7 +47,7 @@ require([
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_language_pronounceGrid_store=new JsonRest({target:"../language/api/language_mask",idProperty:"lsid",sortParam:"orderBy"});
+	rel_language_pronounceGrid_store=new JsonRest({target:"../language/api/language",idProperty:"lsid",sortParam:"orderBy"});
 	rel_language_pronounceGrid_structure=[
 		{id:"lsid",field:"lsid",name:"語言編碼",width:"128px"},
 		{id:"lsname",field:"lsname",name:"語言名稱",width:"128px"},

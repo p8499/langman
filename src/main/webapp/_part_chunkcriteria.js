@@ -43,15 +43,15 @@ require([
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_chunk_chunkCriteriaGrid_store=new JsonRest({target:"../language/api/chunk",idProperty:"cpid",sortParam:"orderBy"});
-	rel_chunk_chunkCriteriaGrid_structure=[
+	rel_chunk_chunkcriteriaGrid_store=new JsonRest({target:"../language/api/chunk",idProperty:"cpid",sortParam:"orderBy"});
+	rel_chunk_chunkcriteriaGrid_structure=[
 		{id:"cpid",field:"cpid",name:"組合編碼",width:"64px"},
 		{id:"cplsid",field:"cplsid",name:"語言編碼",width:"128px"},
 		{id:"cpsi",field:"cpsi",name:"子項號",width:"128px"},
 		{id:"cptg",field:"cptg",name:"標記",width:"128px"},
 		{id:"cpft",field:"cpft",name:"特徵",width:"128px"},
 		{id:"cpsort",field:"cpsort",name:"排序號",width:"64px"}];
-	rel_chunk_chunkCriteriaGrid_filterSetupQuery=function(expr)
+	rel_chunk_chunkcriteriaGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
 	this.f_prepareAdd=function()
@@ -185,8 +185,8 @@ require([
 		grid.connect(grid.select.row,"onDeselected",function(row)
 		{	window.f_setControls(0x0011);
 		});
-		rel_chunk_chunkCriteriaGrid.connect(rel_chunk_chunkCriteriaGrid.select.row,"onSelected",function(row)
-		{	f_assistEnd(rel_chunk_chunkCriteriaDialog,rel_chunk_chunkCriteriaGrid,row);
+		rel_chunk_chunkcriteriaGrid.connect(rel_chunk_chunkcriteriaGrid.select.row,"onSelected",function(row)
+		{	f_assistEnd(rel_chunk_chunkcriteriaDialog,rel_chunk_chunkcriteriaGrid,row);
 		});
 		f_auth().then(function()
 		{	f_setControls(0x1111);

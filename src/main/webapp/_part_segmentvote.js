@@ -40,8 +40,8 @@ require([
 		{id:"tvsi",field:"tvsi",name:"子項號",width:"64px"},
 		{id:"tvusid",field:"tvusid",name:"擁有者",width:"224px"},
 		{id:"tvpo",field:"tvpo",name:"能量",width:"48px"},
-		{id:"taupdd",field:"taupdd",name:"更新日腳",width:"80px"},
-		{id:"taupdt",field:"taupdt",name:"更新辰光",width:"64px"}];
+		{id:"tvupdd",field:"tvupdd",name:"更新日腳",width:"80px"},
+		{id:"tvupdt",field:"tvupdt",name:"更新辰光",width:"64px"}];
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
@@ -67,7 +67,8 @@ require([
 		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
 		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
 		{id:"usst",field:"usst",name:"狀態",width:"48px"},
-		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"}];
+		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"},
+		{id:"uspn",field:"uspn",name:"單位能量",width:"48px"}];
 	rel_user_segmentvoteGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
@@ -84,12 +85,12 @@ require([
 		else
 			add_tvusid.set("value","");
 		add_tvpo.set("value","");
-		if(this.interval_add_taupdd!=null)
-			clearInterval(interval_add_taupdd);
-		this.interval_add_taupdd=setInterval(function(){add_taupdd.set("value",new Date());},1000);
-		if(this.interval_add_taupdt!=null)
-			clearInterval(interval_add_taupdt);
-		this.interval_add_taupdt=setInterval(function(){add_taupdt.set("value",new Date());},1000);
+		if(this.interval_add_tvupdd!=null)
+			clearInterval(interval_add_tvupdd);
+		this.interval_add_tvupdd=setInterval(function(){add_tvupdd.set("value",new Date());},1000);
+		if(this.interval_add_tvupdt!=null)
+			clearInterval(interval_add_tvupdt);
+		this.interval_add_tvupdt=setInterval(function(){add_tvupdt.set("value",new Date());},1000);
 		addDialog.show();
 	};
 	this.f_checkAdd=function()
@@ -107,7 +108,7 @@ require([
 	};
 	this.f_processAdd=function()
 	{	var obj=domForm.toObject("addForm");
-		obj.taupdt=obj.taupdt.substr(1);
+		obj.tvupdt=obj.tvupdt.substr(1);
 		grid.store.add(obj,{incremental:false}).then(function()
 		{	addDialog.hide();
 		},function(data)
@@ -131,14 +132,14 @@ require([
 				dom.byId("update_tvusidAssist").style.display="none";
 			}
 			update_tvpo.set("value",data[0].tvpo);
-			update_taupdd.set("value",data[0].taupdd);
-			if(this.interval_update_taupdd!=null)
-				clearInterval(interval_update_taupdd);
-			this.interval_update_taupdd=setInterval(function(){update_taupdd.set("value",new Date());},1000);
-			update_taupdt.set("value","T"+data[0].taupdt);
-			if(this.interval_update_taupdt!=null)
-				clearInterval(interval_update_taupdt);
-			this.interval_update_taupdt=setInterval(function(){update_taupdt.set("value",new Date());},1000);
+			update_tvupdd.set("value",data[0].tvupdd);
+			if(this.interval_update_tvupdd!=null)
+				clearInterval(interval_update_tvupdd);
+			this.interval_update_tvupdd=setInterval(function(){update_tvupdd.set("value",new Date());},1000);
+			update_tvupdt.set("value","T"+data[0].tvupdt);
+			if(this.interval_update_tvupdt!=null)
+				clearInterval(interval_update_tvupdt);
+			this.interval_update_tvupdt=setInterval(function(){update_tvupdt.set("value",new Date());},1000);
 			updateDialog.show();
 			deferred.resolve(data);
 		},function(data)
@@ -178,7 +179,7 @@ require([
 	this.f_processUpdate=function()
 	{	var deferred=new Deferred();
 		var obj=domForm.toObject("updateForm");
-		obj.taupdt=obj.taupdt.substr(1);
+		obj.tvupdt=obj.tvupdt.substr(1);
 		all([grid.store.put(obj),xhr("../language/api/base/unlock",{query:{obj:"sgvt",id:update_tvid.get("value")},handleAs:"json"})]).then(function(data)
 		{	updateDialog.hide();
 			deferred.resolve(data);

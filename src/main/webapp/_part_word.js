@@ -40,11 +40,12 @@ require([
 		{id:"woct",field:"woct",name:"字",width:"64px"},
 		{id:"wopt",field:"wopt",name:"拼音聲調",width:"416px"},
 		{id:"wocl",field:"wocl",name:"類別",width:"48px"},
+		{id:"wosort",field:"wosort",name:"排序號",width:"48px"},
 		{id:"wost",field:"wost",name:"狀態",width:"48px"}];
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_language_wordGrid_store=new JsonRest({target:"../language/api/language_mask",idProperty:"lsid",sortParam:"orderBy"});
+	rel_language_wordGrid_store=new JsonRest({target:"../language/api/language",idProperty:"lsid",sortParam:"orderBy"});
 	rel_language_wordGrid_structure=[
 		{id:"lsid",field:"lsid",name:"語言編碼",width:"128px"},
 		{id:"lsname",field:"lsname",name:"語言名稱",width:"128px"},
@@ -60,6 +61,7 @@ require([
 		add_woct.set("value","");
 		add_wopt.set("value","");
 		add_wocl.set("value","");
+		add_wosort.set("value","");
 		add_wost.set("value","0");
 		addDialog.show();
 	};
@@ -97,6 +99,7 @@ require([
 			update_woct.set("value",data[0].woct);
 			update_wopt.set("value",data[0].wopt);
 			update_wocl.set("value",data[0].wocl);
+			update_wosort.set("value",data[0].wosort);
 			update_wost.set("value",data[0].wost);
 			updateDialog.show();
 			deferred.resolve(data);

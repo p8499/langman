@@ -9,6 +9,7 @@ buildscript
 
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.cargo'
+apply plugin: 'eclipse'
 
 repositories
 {	mavenCentral()
@@ -16,7 +17,7 @@ repositories
 
 cargo
 {	containerId='tomcat8x'
-	port=8080
+	port=80
 	remote
 	{	hostname='localhost'
 		username='jdeuser'

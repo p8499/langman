@@ -41,21 +41,22 @@ require([
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_role_userRoleGrid_store=new JsonRest({target:"../language/api/role",idProperty:"rlid",sortParam:"orderBy"});
-	rel_role_userRoleGrid_structure=[
+	rel_role_userroleGrid_store=new JsonRest({target:"../language/api/role",idProperty:"rlid",sortParam:"orderBy"});
+	rel_role_userroleGrid_structure=[
 		{id:"rlid",field:"rlid",name:"角色編碼",width:"224px"},
 		{id:"rlname",field:"rlname",name:"角色名稱",width:"224px"}];
-	rel_role_userRoleGrid_filterSetupQuery=function(expr)
+	rel_role_userroleGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_user_userRoleGrid_store=new JsonRest({target:"../language/api/user",idProperty:"usid",sortParam:"orderBy"});
-	rel_user_userRoleGrid_structure=[
+	rel_user_userroleGrid_store=new JsonRest({target:"../language/api/user",idProperty:"usid",sortParam:"orderBy"});
+	rel_user_userroleGrid_structure=[
 		{id:"usid",field:"usid",name:"用戶名",width:"224px"},
 		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
 		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
 		{id:"usst",field:"usst",name:"狀態",width:"48px"},
-		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"}];
-	rel_user_userRoleGrid_filterSetupQuery=function(expr)
+		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"},
+		{id:"uspn",field:"uspn",name:"單位能量",width:"48px"}];
+	rel_user_userroleGrid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
 	this.f_prepareAdd=function()
@@ -185,11 +186,11 @@ require([
 		grid.connect(grid.select.row,"onDeselected",function(row)
 		{	window.f_setControls(0x0011);
 		});
-		rel_role_userRoleGrid.connect(rel_role_userRoleGrid.select.row,"onSelected",function(row)
-		{	f_assistEnd(rel_role_userRoleDialog,rel_role_userRoleGrid,row);
+		rel_role_userroleGrid.connect(rel_role_userroleGrid.select.row,"onSelected",function(row)
+		{	f_assistEnd(rel_role_userroleDialog,rel_role_userroleGrid,row);
 		});
-		rel_user_userRoleGrid.connect(rel_user_userRoleGrid.select.row,"onSelected",function(row)
-		{	f_assistEnd(rel_user_userRoleDialog,rel_user_userRoleGrid,row);
+		rel_user_userroleGrid.connect(rel_user_userroleGrid.select.row,"onSelected",function(row)
+		{	f_assistEnd(rel_user_userroleDialog,rel_user_userroleGrid,row);
 		});
 		f_auth().then(function()
 		{	f_setControls(0x1111);

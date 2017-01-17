@@ -79,7 +79,7 @@
 							<td>
 								<input id="add_lplsid" name="lplsid" type="text" data-dojo-type="dijit/form/TextBox" data-dojo-id="add_lplsid" required="required" maxlength="16"/>
 							</td>
-							<td><a id="add_lplsidAssist" class="assist" href="#" onclick="f_assistBegin([add_lplsid],['lsid'],rel_language_languageParameterDialog,rel_language_languageParameterGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
+							<td><a id="add_lplsidAssist" class="assist" href="#" onclick="f_assistBegin([add_lplsid],['lsid'],rel_language_languageparameterDialog,rel_language_languageparameterGrid)" onmouseover="this.style.background='url(img/assistmo.gif)'" onmouseout="this.style.background='url(img/assist.gif)'"></a></td>
 						</tr>
 						<tr>
 							<td><label for="lpsgng">MaxNGram</label></td>
@@ -326,11 +326,11 @@
 				</button>
 			</div>
 		</div>
-		<div id="rel_language_languageParameterDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_language_languageParameterDialog" data-dojo-props="closable:true">
-			<div id="rel_language_languageParameterGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_language_languageParameterGrid" data-dojo-props="
+		<div id="rel_language_languageparameterDialog" class="assistDialog" title="選擇" data-dojo-type="dijit/Dialog" data-dojo-id="rel_language_languageparameterDialog" data-dojo-props="closable:true">
+			<div id="rel_language_languageparameterGrid" class="assistGrid" data-dojo-type="gridx/Grid" data-dojo-id="rel_language_languageparameterGrid" data-dojo-props="
 				cacheClass:'gridx/core/model/cache/Async',
-				structure:rel_language_languageParameterGrid_structure,
-				store:rel_language_languageParameterGrid_store,
+				structure:rel_language_languageparameterGrid_structure,
+				store:rel_language_languageparameterGrid_store,
 				autoHeight:true,
 				paginationBarSizes:[10],
 				modules:[
@@ -349,7 +349,7 @@
 				paginationBarMessage:'${2}-${3}/${0}, ${1} Selected',
 				sortInitialOrder:[{colId:'lssort',descending:false}],
 				filterServerMode:true,
-				filterSetupQuery:rel_language_languageParameterGrid_filterSetupQuery">
+				filterSetupQuery:rel_language_languageparameterGrid_filterSetupQuery">
 			</div>
 		</div>
 		<script src="../libdojo/dojo/dojo.js" data-dojo-config="async:true,parseOnLoad:true"></script>

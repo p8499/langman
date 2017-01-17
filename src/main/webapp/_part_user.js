@@ -39,11 +39,12 @@ require([
 		{id:"uspswd",field:"uspswd",name:"密碼",width:"224px"},
 		{id:"usname",field:"usname",name:"昵稱",width:"224px"},
 		{id:"usst",field:"usst",name:"狀態",width:"48px"},
-		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"}];
+		{id:"uslsid",field:"uslsid",name:"語言編碼",width:"128px"},
+		{id:"uspn",field:"uspn",name:"單位能量",width:"48px"}];
 	grid_filterSetupQuery=function(expr)
 	{	return {"filter":expr==null?null:json.stringify(expr)};
 	};
-	rel_language_userGrid_store=new JsonRest({target:"../language/api/language_mask",idProperty:"lsid",sortParam:"orderBy"});
+	rel_language_userGrid_store=new JsonRest({target:"../language/api/language",idProperty:"lsid",sortParam:"orderBy"});
 	rel_language_userGrid_structure=[
 		{id:"lsid",field:"lsid",name:"語言編碼",width:"128px"},
 		{id:"lsname",field:"lsname",name:"語言名稱",width:"128px"},
@@ -66,6 +67,7 @@ require([
 		add_usname.set("value","");
 		add_usst.set("value","0");
 		add_uslsid.set("value","");
+		add_uspn.set("value","");
 		addDialog.show();
 	};
 	this.f_checkAdd=function()
@@ -102,6 +104,7 @@ require([
 			update_usname.set("value",data[0].usname);
 			update_usst.set("value",data[0].usst);
 			update_uslsid.set("value",data[0].uslsid);
+			update_uspn.set("value",data[0].uspn);
 			updateDialog.show();
 			deferred.resolve(data);
 		},function(data)
@@ -271,10 +274,6 @@ require([
 				userroleLink.setAttribute('disabled',false);
 			else
 				userroleLink.setAttribute('disabled',true);
-			if((rasegment||risegment)&&select==1)
-				segmentLink.setAttribute('disabled',false);
-			else
-				segmentLink.setAttribute('disabled',true);
 			if((raarticle||riarticle)&&select==1)
 				articleLink.setAttribute('disabled',false);
 			else
@@ -283,26 +282,30 @@ require([
 				sentenceLink.setAttribute('disabled',false);
 			else
 				sentenceLink.setAttribute('disabled',true);
+			if((rasegment||risegment)&&select==1)
+				segmentLink.setAttribute('disabled',false);
+			else
+				segmentLink.setAttribute('disabled',true);
 			if((rasegmentflow||risegmentflow)&&select==1)
 				segmentflowLink.setAttribute('disabled',false);
 			else
 				segmentflowLink.setAttribute('disabled',true);
-			if((rasegmentvote||risegmentvote)&&select==1)
-				segmentvoteLink.setAttribute('disabled',false);
-			else
-				segmentvoteLink.setAttribute('disabled',true);
 			if((ratagging||ritagging)&&select==1)
 				taggingLink.setAttribute('disabled',false);
 			else
 				taggingLink.setAttribute('disabled',true);
-			if((rawordflow||riwordflow)&&select==1)
-				wordflowLink.setAttribute('disabled',false);
+			if((rasegmentvote||risegmentvote)&&select==1)
+				segmentvoteLink.setAttribute('disabled',false);
 			else
-				wordflowLink.setAttribute('disabled',true);
+				segmentvoteLink.setAttribute('disabled',true);
 			if((rawordvote||riwordvote)&&select==1)
 				wordvoteLink.setAttribute('disabled',false);
 			else
 				wordvoteLink.setAttribute('disabled',true);
+			if((rawordflow||riwordflow)&&select==1)
+				wordflowLink.setAttribute('disabled',false);
+			else
+				wordflowLink.setAttribute('disabled',true);
 		}
 		if(code&0x0100==0x0100)
 			if((wa||wi)&&select>0)
@@ -320,26 +323,26 @@ require([
 		this.ri=this.wi=false;
 		this.ralanguage=this.rilanguage=false;
 		this.rauserrole=this.riuserrole=false;
-		this.rasegment=this.risegment=false;
 		this.raarticle=this.riarticle=false;
 		this.rasentence=this.risentence=false;
+		this.rasegment=this.risegment=false;
 		this.rasegmentflow=this.risegmentflow=false;
-		this.rasegmentvote=this.risegmentvote=false;
 		this.ratagging=this.ritagging=false;
-		this.rawordflow=this.riwordflow=false;
+		this.rasegmentvote=this.risegmentvote=false;
 		this.rawordvote=this.riwordvote=false;
+		this.rawordflow=this.riwordflow=false;
 		var dra=new Deferred(),dwa=new Deferred(),d=new Deferred(),d0=new Deferred();
 		var dri=new Deferred(),dwi=new Deferred();
 		var dralanguage=new Deferred(),drilanguage=new Deferred();
 		var drauserrole=new Deferred(),driuserrole=new Deferred();
-		var drasegment=new Deferred(),drisegment=new Deferred();
 		var draarticle=new Deferred(),driarticle=new Deferred();
 		var drasentence=new Deferred(),drisentence=new Deferred();
+		var drasegment=new Deferred(),drisegment=new Deferred();
 		var drasegmentflow=new Deferred(),drisegmentflow=new Deferred();
-		var drasegmentvote=new Deferred(),drisegmentvote=new Deferred();
 		var dratagging=new Deferred(),dritagging=new Deferred();
-		var drawordflow=new Deferred(),driwordflow=new Deferred();
+		var drasegmentvote=new Deferred(),drisegmentvote=new Deferred();
 		var drawordvote=new Deferred(),driwordvote=new Deferred();
+		var drawordflow=new Deferred(),driwordflow=new Deferred();
 		var fra=function(){xhr("../language/api/base/security",{query:{auth:"user_ra"},handleAs:"json"}).then(function(){this.ra=true;dra.resolve();},function(){dra.resolve();});return dra.promise;};
 		var fwa=function(){xhr("../language/api/base/security",{query:{auth:"user_wa"},handleAs:"json"}).then(function(){this.wa=true;dwa.resolve();},function(){dwa.resolve();});return dwa.promise;};
 		var fri=function(){xhr("../language/api/base/security",{query:{auth:"user_ri"},handleAs:"json"}).then(function(){this.ri=true;dri.resolve();},function(){dri.resolve();});return dri.promise;};
@@ -348,23 +351,23 @@ require([
 		var frilanguage=function(){xhr("../language/api/base/security",{query:{auth:"lang_ri"},handleAs:"json"}).then(function(){this.rilanguage=true;drilanguage.resolve();},function(){drilanguage.resolve();});return drilanguage.promise;};
 		var frauserrole=function(){xhr("../language/api/base/security",{query:{auth:"usrl_ra"},handleAs:"json"}).then(function(){this.rauserrole=true;drauserrole.resolve();},function(){drauserrole.resolve();});return drauserrole.promise;};
 		var friuserrole=function(){xhr("../language/api/base/security",{query:{auth:"usrl_ri"},handleAs:"json"}).then(function(){this.riuserrole=true;driuserrole.resolve();},function(){driuserrole.resolve();});return driuserrole.promise;};
-		var frasegment=function(){xhr("../language/api/base/security",{query:{auth:"sgmt_ra"},handleAs:"json"}).then(function(){this.rasegment=true;drasegment.resolve();},function(){drasegment.resolve();});return drasegment.promise;};
-		var frisegment=function(){xhr("../language/api/base/security",{query:{auth:"sgmt_ri"},handleAs:"json"}).then(function(){this.risegment=true;drisegment.resolve();},function(){drisegment.resolve();});return drisegment.promise;};
 		var fraarticle=function(){xhr("../language/api/base/security",{query:{auth:"artc_ra"},handleAs:"json"}).then(function(){this.raarticle=true;draarticle.resolve();},function(){draarticle.resolve();});return draarticle.promise;};
 		var friarticle=function(){xhr("../language/api/base/security",{query:{auth:"artc_ri"},handleAs:"json"}).then(function(){this.riarticle=true;driarticle.resolve();},function(){driarticle.resolve();});return driarticle.promise;};
 		var frasentence=function(){xhr("../language/api/base/security",{query:{auth:"sent_ra"},handleAs:"json"}).then(function(){this.rasentence=true;drasentence.resolve();},function(){drasentence.resolve();});return drasentence.promise;};
 		var frisentence=function(){xhr("../language/api/base/security",{query:{auth:"sent_ri"},handleAs:"json"}).then(function(){this.risentence=true;drisentence.resolve();},function(){drisentence.resolve();});return drisentence.promise;};
+		var frasegment=function(){xhr("../language/api/base/security",{query:{auth:"sgmt_ra"},handleAs:"json"}).then(function(){this.rasegment=true;drasegment.resolve();},function(){drasegment.resolve();});return drasegment.promise;};
+		var frisegment=function(){xhr("../language/api/base/security",{query:{auth:"sgmt_ri"},handleAs:"json"}).then(function(){this.risegment=true;drisegment.resolve();},function(){drisegment.resolve();});return drisegment.promise;};
 		var frasegmentflow=function(){xhr("../language/api/base/security",{query:{auth:"sgfl_ra"},handleAs:"json"}).then(function(){this.rasegmentflow=true;drasegmentflow.resolve();},function(){drasegmentflow.resolve();});return drasegmentflow.promise;};
 		var frisegmentflow=function(){xhr("../language/api/base/security",{query:{auth:"sgfl_ri"},handleAs:"json"}).then(function(){this.risegmentflow=true;drisegmentflow.resolve();},function(){drisegmentflow.resolve();});return drisegmentflow.promise;};
-		var frasegmentvote=function(){xhr("../language/api/base/security",{query:{auth:"sgvt_ra"},handleAs:"json"}).then(function(){this.rasegmentvote=true;drasegmentvote.resolve();},function(){drasegmentvote.resolve();});return drasegmentvote.promise;};
-		var frisegmentvote=function(){xhr("../language/api/base/security",{query:{auth:"sgvt_ri"},handleAs:"json"}).then(function(){this.risegmentvote=true;drisegmentvote.resolve();},function(){drisegmentvote.resolve();});return drisegmentvote.promise;};
 		var fratagging=function(){xhr("../language/api/base/security",{query:{auth:"post_ra"},handleAs:"json"}).then(function(){this.ratagging=true;dratagging.resolve();},function(){dratagging.resolve();});return dratagging.promise;};
 		var fritagging=function(){xhr("../language/api/base/security",{query:{auth:"post_ri"},handleAs:"json"}).then(function(){this.ritagging=true;dritagging.resolve();},function(){dritagging.resolve();});return dritagging.promise;};
-		var frawordflow=function(){xhr("../language/api/base/security",{query:{auth:"wdfl_ra"},handleAs:"json"}).then(function(){this.rawordflow=true;drawordflow.resolve();},function(){drawordflow.resolve();});return drawordflow.promise;};
-		var friwordflow=function(){xhr("../language/api/base/security",{query:{auth:"wdfl_ri"},handleAs:"json"}).then(function(){this.riwordflow=true;driwordflow.resolve();},function(){driwordflow.resolve();});return driwordflow.promise;};
+		var frasegmentvote=function(){xhr("../language/api/base/security",{query:{auth:"sgvt_ra"},handleAs:"json"}).then(function(){this.rasegmentvote=true;drasegmentvote.resolve();},function(){drasegmentvote.resolve();});return drasegmentvote.promise;};
+		var frisegmentvote=function(){xhr("../language/api/base/security",{query:{auth:"sgvt_ri"},handleAs:"json"}).then(function(){this.risegmentvote=true;drisegmentvote.resolve();},function(){drisegmentvote.resolve();});return drisegmentvote.promise;};
 		var frawordvote=function(){xhr("../language/api/base/security",{query:{auth:"wdvt_ra"},handleAs:"json"}).then(function(){this.rawordvote=true;drawordvote.resolve();},function(){drawordvote.resolve();});return drawordvote.promise;};
 		var friwordvote=function(){xhr("../language/api/base/security",{query:{auth:"wdvt_ri"},handleAs:"json"}).then(function(){this.riwordvote=true;driwordvote.resolve();},function(){driwordvote.resolve();});return driwordvote.promise;};
-		d0.promise.then(fralanguage).then(function(){if(!ralanguage)return frilanguage();}).then(frauserrole).then(function(){if(!rauserrole)return friuserrole();}).then(frasegment).then(function(){if(!rasegment)return frisegment();}).then(fraarticle).then(function(){if(!raarticle)return friarticle();}).then(frasentence).then(function(){if(!rasentence)return frisentence();}).then(frasegmentflow).then(function(){if(!rasegmentflow)return frisegmentflow();}).then(frasegmentvote).then(function(){if(!rasegmentvote)return frisegmentvote();}).then(fratagging).then(function(){if(!ratagging)return fritagging();}).then(frawordflow).then(function(){if(!rawordflow)return friwordflow();}).then(frawordvote).then(function(){if(!rawordvote)return friwordvote();}).then(fra).then(function(){if(!ra)return fri();}).then(fwa).then(function(){if(!wa)return fwi();}).then(function(){d.resolve();});
+		var frawordflow=function(){xhr("../language/api/base/security",{query:{auth:"wdfl_ra"},handleAs:"json"}).then(function(){this.rawordflow=true;drawordflow.resolve();},function(){drawordflow.resolve();});return drawordflow.promise;};
+		var friwordflow=function(){xhr("../language/api/base/security",{query:{auth:"wdfl_ri"},handleAs:"json"}).then(function(){this.riwordflow=true;driwordflow.resolve();},function(){driwordflow.resolve();});return driwordflow.promise;};
+		d0.promise.then(fralanguage).then(function(){if(!ralanguage)return frilanguage();}).then(frauserrole).then(function(){if(!rauserrole)return friuserrole();}).then(fraarticle).then(function(){if(!raarticle)return friarticle();}).then(frasentence).then(function(){if(!rasentence)return frisentence();}).then(frasegment).then(function(){if(!rasegment)return frisegment();}).then(frasegmentflow).then(function(){if(!rasegmentflow)return frisegmentflow();}).then(fratagging).then(function(){if(!ratagging)return fritagging();}).then(frasegmentvote).then(function(){if(!rasegmentvote)return frisegmentvote();}).then(frawordvote).then(function(){if(!rawordvote)return friwordvote();}).then(frawordflow).then(function(){if(!rawordflow)return friwordflow();}).then(fra).then(function(){if(!ra)return fri();}).then(fwa).then(function(){if(!wa)return fwi();}).then(function(){d.resolve();});
 		d0.resolve();
 		return d;
 	}

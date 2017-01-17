@@ -114,7 +114,12 @@
 						<tr>
 							<td><label for="tast">狀態</label></td>
 							<td>
-								<input id="add_tast" name="tast" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="add_tast" required="required" maxlength="1"/>
+								<select id="add_tast" name="tast" data-dojo-type="dijit/form/Select" data-dojo-id="add_tast" required="required"">
+									<option value="1" selected="selected">Voting</option>
+									<option value="2" >Passed</option>
+									<option value="3" >Denied</option>
+									<option value="4" >Recalled</option>
+								</select>
 							</td>
 						</tr>
 						<tr>
@@ -202,7 +207,12 @@
 						<tr>
 							<td><label for="tast">狀態</label></td>
 							<td>
-								<input id="update_tast" name="tast" type="text" data-dojo-type="dijit/form/NumberTextBox" data-dojo-id="update_tast" required="required" maxlength="1"/>
+								<select id="update_tast" name="tast" data-dojo-type="dijit/form/Select" data-dojo-id="update_tast" required="required">
+									<option value="1" selected="selected">Voting</option>
+									<option value="2" >Passed</option>
+									<option value="3" >Denied</option>
+									<option value="4" >Recalled</option>
+								</select>
 							</td>
 						</tr>
 						<tr>
